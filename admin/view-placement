@@ -1,0 +1,55 @@
+<?php
+session_start();
+error_reporting(0);
+include('includes/dbconnection.php');
+if (strlen($_SESSION['trmsaid']==0)) {
+  header('location:logout.php');
+  } else{
+
+
+
+  ?>
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    
+    <title>||||Placement</title>
+
+    <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="vendors/themify-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+
+
+</head>
+
+<body>
+    <!-- Left Panel -->
+
+    <?php include_once('includes/sidebar.php');?>
+
+    <div id="right-panel" class="right-panel">
+
+        <!-- Header-->
+        <?php include_once('includes/header.php');?>
+        
+
+    <!-- Right Panel -->
+
+
+    <script src="vendors/jquery/dist/jquery.min.js"></script>
+    <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="assets/js/main.js"></script>
+
+
+</body>
+
+</html>
+<?php }  ?>
