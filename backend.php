@@ -196,11 +196,33 @@
     }
     else
     {
-      $_SESSION['password_changed'] = "Both the password and should be same!";
+      $_SESSION['password_changed'] = "Both the password should be same!";
       header("Location: student/index.php");
     }
   }
 
+
+  if(isset($_POST['change_password_staff']))
+  {
+    $id=$_SESSION['staff_id'];
+    $password1=$_POST['password1'];
+    $password2=$_POST['password2'];
+    if($password1 == $password2)
+    {
+      $password=md5($password1);
+      $query = mysqli_query($con, "UPDATE staff SET password='$password' WHERE id='$id'");
+      if($query)
+      {
+        $_SESSION['password_changed_staff'] = "Password changed successfully!";
+        header("Location: staff/index.php");
+      }
+    }
+    else
+    {
+      $_SESSION['password_changed_staff'] = "Both the password should be same!";
+      header("Location: staff/index.php");
+    }
+  }
 
   if(isset($_POST['upload']))
   {
@@ -232,6 +254,36 @@
   }
 
 
+  if(isset($_POST['upload_staff']))
+  {
+    $propic=$_FILES["propic"]["name"];
+    $extension = substr($propic,strlen($propic)-4,strlen($propic));
+    $allowed_extensions = array(".jpg","jpeg",".png",".gif");
+    if(!in_array($extension,$allowed_extensions))
+    {
+      $_SESSION['uploaded_staff'] = "Profile Picture is invalid Format";
+      header("Location: staff/myaccount.php"); 
+    }
+    else
+    {
+      $id=$_SESSION['staff_id'];
+      $propic=$propic.time().$extension;
+      move_uploaded_file($_FILES["propic"]["tmp_name"],"assets/img/profile/".$propic);
+      $query = mysqli_query($con, "UPDATE staff set profilePic = '$propic' WHERE id='$id'");
+      if($query)
+      {
+        $_SESSION['uploaded_staff'] = "Profile Picture Updated Successfully";
+        header("Location: staff/myaccount.php"); 
+      }
+      else
+      {
+        $_SESSION['uploaded_staff'] = "Profile Picture Updated Failed! Please retry!";
+        header("Location: staff/myaccount.php"); 
+      }
+    }
+  }
+
+
   if(isset($_POST['update_student']))
   {
     $id=$_SESSION['student_id'];
@@ -250,6 +302,29 @@
     {
       $_SESSION['updated'] = "Student Details Update Failed! Please retry!";
       header("Location: student/myaccount.php"); 
+    }
+  }
+
+
+  if(isset($_POST['update_staff']))
+  {
+    $id=$_SESSION['staff_id'];
+    $name=ucfirst($_POST['name']);
+    $email=$_POST['email'];
+    $quali=$_POST['qualification'];
+    $mobile=$_POST['mobile'];
+    $subject=$_POST['subject'];
+    $address=mysqli_real_escape_string($con, trim($_POST['address']));
+    $query = mysqli_query($con, "UPDATE staff set name='$name',email='$email',mobile='$mobile',address='$address',qualification='$quali',subjectTaken='$subject' WHERE id='$id'");
+    if($query)
+    {
+      $_SESSION['updated_staff'] = "Staff Details Updated Successfully";
+      header("Location: staff/myaccount.php"); 
+    }
+    else
+    {
+      $_SESSION['updated_staff'] = "Staff Details Update Failed! Please retry!";
+      header("Location: staff/myaccount.php"); 
     }
   }
 ?>

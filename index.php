@@ -60,7 +60,7 @@
 
 </head>
 
-<body class="wow animated slideInDown" data-wow-delay="0.8s">
+<body>
 
   <?php
     if(isset($_SESSION["invalid"]))

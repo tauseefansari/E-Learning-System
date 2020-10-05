@@ -47,7 +47,8 @@
               }
             ?>
           <div class="dropdown-menu dropdown-menu-right dropdown-dark" aria-labelledby="navbarDropdownMenuLink-4">
-            <a class="dropdown-item" href="#">My Account</a>
+            <a class="dropdown-item" href="myaccount.php">My Account</a>
+            <a class="dropdown-item" data-toggle="modal" data-target="#modalLoginForm">Change Password</a>
             <a class="dropdown-item" href="logout.php">Logout</a>
           </div>
         </li>

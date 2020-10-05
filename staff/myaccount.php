@@ -2,9 +2,9 @@
   require '../database.php';
   require '../backend.php';
 
-  if(isset($_SESSION['student_id']))
+  if(isset($_SESSION['staff_id']))
   {
-  	$id=$_SESSION['student_id'];
+  	$id=$_SESSION['staff_id'];
   }
 ?>
 
@@ -18,7 +18,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Expertise Learning :: <?php echo $_SESSION['login_student'];?></title>
+  <title>Expertise Learning :: <?php echo $_SESSION['login_staff'];?></title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
   <!-- Bootstrap core CSS -->
@@ -84,19 +84,19 @@
   <?php include_once('includes/header.php'); ?>
 
   <?php 
-    $query = mysqli_query($con, "SELECT * FROM student WHERE id = '$id'");
+    $query = mysqli_query($con, "SELECT * FROM staff WHERE id = '$id'");
     $res = mysqli_fetch_array($query);
   ?>
 
   <?php
-      if(isset($_SESSION["uploaded"]))
+      if(isset($_SESSION["uploaded_staff"]))
         {
           $status="";
-          if($_SESSION['uploaded']=="Profile Picture Updated Successfully")
+          if($_SESSION['uploaded_staff']=="Profile Picture Updated Successfully")
           {
             $status = "success";  
           }
-          else if($_SESSION['uploaded']=="Profile Picture is invalid Format")
+          else if($_SESSION['uploaded_staff']=="Profile Picture is invalid Format")
           {
             $status = "warning";  
           }
@@ -108,21 +108,21 @@
           <script>
             swal({
               title: "Profile Picture",
-              text: "<?php echo $_SESSION["uploaded"]; ?>",
+              text: "<?php echo $_SESSION["uploaded_staff"]; ?>",
               icon: "<?php echo $status; ?>",
               button: "Okay!",
           });
           </script>
       <?php
-          unset($_SESSION['uploaded']);
+          unset($_SESSION['uploaded_staff']);
         }
       ?>
 
       <?php
-      if(isset($_SESSION["updated"]))
+      if(isset($_SESSION["updated_staff"]))
         {
           $status="";
-          if($_SESSION['updated']=="Student Details Updated Successfully")
+          if($_SESSION['updated_staff']=="Staff Details Updated Successfully")
           {
             $status = "success";  
           }
@@ -133,14 +133,14 @@
       ?>
           <script>
             swal({
-              title: "Student Account",
-              text: "<?php echo $_SESSION["updated"]; ?>",
+              title: "Staff Account",
+              text: "<?php echo $_SESSION["updated_staff"]; ?>",
               icon: "<?php echo $status; ?>",
               button: "Okay!",
           });
           </script>
       <?php
-          unset($_SESSION['updated']);
+          unset($_SESSION['updated_staff']);
         }
       ?>
 
@@ -159,7 +159,7 @@
             <div class="card card-cascade narrower wow animated flipInY" data-wow-delay="0.3s">
 
               <!-- Card image -->
-              <div class="view view-cascade gradient-card-header blue lighten-3">
+              <div class="view view-cascade gradient-card-header bg-success lighten-3">
                 <h5 class="mb-0 font-weight-bold">Edit Photo</h5>
               </div>
               <!-- Card image -->
@@ -170,7 +170,7 @@
 
                 <p class="text-muted"><small>Browse to select profile picture</small></p>
                 <div class="row flex-center">
-                  <button class="btn btn-info btn-rounded btn-sm" data-toggle="modal" data-target="#myModal">Change Photo</button><br>
+                  <button class="btn btn-success btn-rounded btn-sm" data-toggle="modal" data-target="#myModal">Change Photo</button><br>
                 </div>
               </div>
               <!-- Card content -->
@@ -188,7 +188,7 @@
             <div class="card card-cascade narrower">
 
               <!-- Card image -->
-              <div class="view view-cascade gradient-card-header blue lighten-3">
+              <div class="view view-cascade gradient-card-header bg-success lighten-3">
                 <h5 class="mb-0 font-weight-bold">Edit Account</h5>
               </div>
               <!-- Card image -->
@@ -206,7 +206,7 @@
                     <div class="col-md-6">
                       <div class="md-form mb-0">
                         <input type="text" id="form1" class="form-control validate" name="name" value="<?php echo $res['name']; ?>">
-                        <label for="form1" data-error="wrong" data-success="right">Student Name</label>
+                        <label for="form1" data-error="wrong" data-success="right">Staff Name</label>
                       </div>
                     </div>
                     <!-- Second column -->
@@ -259,8 +259,19 @@
 
                     <div class="col-md-6">
                       <div class="md-form mb-0">
-                        <input type="text" id="form77" class="form-control validate" value="<?php echo $res['placement']; ?>" disabled>
-                        <label for="form77" data-error="wrong" data-success="right">Placed in</label>
+                        <label style="margin-top: -40px;">Expertise In</label>
+                        <select name="subject" id="subject" class="form-control" required>
+                          <option value="<?php echo $res['subjectTaken']; ?>"><?php echo $res['subjectTaken']; ?></option>
+                          <?php 
+                            $query = mysqli_query($con, "SELECT * FROM courses");
+                            while ($row = mysqli_fetch_array($query))
+                            {
+                          ?>
+                            <option value="<?php echo $row['name']; ?>"><?php echo $row['name']; ?></option>
+                          <?php
+                            }
+                          ?>
+                      </select>
                       </div>
                     </div>
                   </div>
@@ -282,7 +293,7 @@
                   <!-- Fourth row -->
                   <div class="row">
                     <div class="col-md-12 text-center my-4">
-                      <input type="submit" value="Update Account" name="update_student" class="btn btn-info btn-rounded">
+                      <input type="submit" value="Update Account" name="update_staff" class="btn btn-success btn-rounded">
                     </div>
                   </div>
                   <!-- Fourth row -->
@@ -318,14 +329,14 @@
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header text-center bg-primary text-white">
+      <div class="modal-header text-center bg-danger text-white">
         <h4 class="modal-title w-100 font-weight-bold">Change Password</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body mx-3">
-      	<form method="post" action="../backend.php">
+        <form method="post" action="../backend.php">
         <div class="md-form mb-5">
           <i class="fas fa-lock prefix grey-text"></i>
           <input type="password" id="defaultForm-email" name="password1" class="form-control validate">
@@ -340,9 +351,9 @@
 
       </div>
       <div class="modal-footer d-flex justify-content-center">
-        <button class="btn btn-primary" type="submit" name="change_password">Submit</button>
+        <button class="btn btn-danger" type="submit" name="change_password_staff">Submit</button>
       </div>
-  	</form>
+    </form>
     </div>
   </div>
 </div>
@@ -365,7 +376,7 @@
           </div>
         </div>
           <!-- Send button -->
-          <button class="btn btn-info btn-md ok" data-toggle="modal" data-target="#myModal" style="visibility: hidden;" name="upload" type="submit">Upload</button>
+          <button class="btn btn-info btn-md ok" data-toggle="modal" data-target="#myModal" style="visibility: hidden;" name="upload_staff" type="submit">Upload</button>
           <button class="btn btn-danger btn-md" data-dismiss="modal" aria-label="Close">Cancel</button>
       </form>
     </div>
