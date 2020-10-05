@@ -85,7 +85,6 @@
 
     if(isset($_POST['addstudent']))
     {
-      echo "Hii";
       $name=$_POST['sname'];
       $email=$_POST['email'];
       $mobile=$_POST['mobile'];
@@ -199,6 +198,58 @@
     {
       $_SESSION['password_changed'] = "Both the password and should be same!";
       header("Location: student/index.php");
+    }
+  }
+
+
+  if(isset($_POST['upload']))
+  {
+    $propic=$_FILES["propic"]["name"];
+    $extension = substr($propic,strlen($propic)-4,strlen($propic));
+    $allowed_extensions = array(".jpg","jpeg",".png",".gif");
+    if(!in_array($extension,$allowed_extensions))
+    {
+      $_SESSION['uploaded'] = "Profile Picture is invalid Format";
+      header("Location: student/myaccount.php"); 
+    }
+    else
+    {
+      $id=$_SESSION['student_id'];
+      $propic=$propic.time().$extension;
+      move_uploaded_file($_FILES["propic"]["tmp_name"],"assets/img/profile/".$propic);
+      $query = mysqli_query($con, "UPDATE student set profilePic = '$propic' WHERE id='$id'");
+      if($query)
+      {
+        $_SESSION['uploaded'] = "Profile Picture Updated Successfully";
+        header("Location: student/myaccount.php"); 
+      }
+      else
+      {
+        $_SESSION['uploaded'] = "Profile Picture Updated Failed! Please retry!";
+        header("Location: student/myaccount.php"); 
+      }
+    }
+  }
+
+
+  if(isset($_POST['update_student']))
+  {
+    $id=$_SESSION['student_id'];
+    $name=ucfirst($_POST['name']);
+    $email=$_POST['email'];
+    $quali=$_POST['qualification'];
+    $mobile=$_POST['mobile'];
+    $address=mysqli_real_escape_string($con, trim($_POST['address']));
+    $query = mysqli_query($con, "UPDATE student set name='$name',email='$email',mobile='$mobile',address='$address',qualification='$quali' WHERE id='$id'");
+    if($query)
+    {
+      $_SESSION['updated'] = "Student Details Updated Successfully";
+      header("Location: student/myaccount.php"); 
+    }
+    else
+    {
+      $_SESSION['updated'] = "Student Details Update Failed! Please retry!";
+      header("Location: student/myaccount.php"); 
     }
   }
 ?>

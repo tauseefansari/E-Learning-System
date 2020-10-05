@@ -484,7 +484,7 @@
 
                           <a class="" data-toggle="tooltip" data-placement="top" title="Requst to Purchase">
 
-                            <i class="fas fa-shopping-cart ml-3"></i>
+                            <i class="fas fa-edit ml-3"></i>
 
                           </a>
 

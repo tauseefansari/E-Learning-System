@@ -117,7 +117,7 @@ if (strlen($_SESSION['trmsaid']==0)) {
                             <script src="vendors/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 
                             <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-                            <script src="assets/js/main.js"></script>
+                            <script src="assets/js/mains.js"></script>
 </body>
 </html>
 <?php }  ?>

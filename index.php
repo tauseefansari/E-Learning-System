@@ -1,38 +1,6 @@
 <?php 
-  // use PHPMailer\PHPMailer\PHPMailer;
-  // use PHPMailer\PHPMailer\SMTP;
-  // use PHPMailer\PHPMailer\Exception;
-    include('database.php');
-    require 'backend.php';
-
-  // if(isset($_POST["submit"]))
-  // {
-  //   $mail = new PHPMailer;
-  //   $mail->IsSMTP();        //Sets Mailer to send message using SMTP
-  //   $mail->Host = 'smtp.gmail.com';  //Sets the SMTP hosts of your Email hosting, this for Godaddy
-  //   $mail->Port = '587';        //Sets the default SMTP server port
-  //   $mail->SMTPAuth = true;       //Sets SMTP authentication. Utilizes the Username and Password variables
-  //   $mail->Username = 'learnerexpertise60@gmail.com';     //Sets SMTP username
-  //   $mail->Password = 'zakiyakhan123';     //Sets SMTP password
-  //   $mail->SMTPSecure = 'tls';       //Sets connection prefix. Options are "", "ssl" or "tls"
-  //   $mail->SetFrom("learnerexpertise60@gmail.com", "MindScript");   //Sets the From email address for the message
-  //     //Sets the From name of the message
-  //   $mail->AddAddress($_POST["email"], 'Mindscript');  //Adds a "To" address       //Sets word wrapping on the body of the message to a given number of characters
-  //   $mail->IsHTML(true);       //Sets message type to HTML
-  //   $mail->AddAttachment($path);     //Adds an attachment from a path on the filesystem
-  //   $mail->Subject = 'Certification';    //Sets the Subject of the message
-  //   $message = 'This is your certificate';
-  //   $mail->Body = $message;       //An HTML or plain text message body
-  //   if($mail->Send())        //Send an Email. Return true on success or false on error
-  //   {
-  //    $message = '<div class="alert alert-success">Application Successfully Submitted</div>';
-  //   }
-  //   else
-  //   {
-  //    $message = '<div class="alert alert-danger">There is an Error</div>';
-  //   }
-  // }
-
+  include('database.php');
+  require 'backend.php';
 ?>
 
 <!DOCTYPE html>
