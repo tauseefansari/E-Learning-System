@@ -4,7 +4,6 @@
 [![ForTheBadge uses-js](http://ForTheBadge.com/images/badges/uses-js.svg)](http://ForTheBadge.com)
 [![ForTheBadge uses-git](http://ForTheBadge.com/images/badges/uses-git.svg)](https://GitHub.com/)
 [![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
-[![ForTheBadge built-by-developers](http://ForTheBadge.com/images/badges/built-by-developers.svg)](https://GitHub.com/tauseefansari/)
 [![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://github.com/tauseefansari/E-Learning-System/releases/)
 [![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://github.com/tauseefansari/E-Learning-System/graphs/contributors/)
 [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/Naereen/StrapDown.js.svg)](https://github.com/tauseefansari/E-Learning-System/pulls/)
