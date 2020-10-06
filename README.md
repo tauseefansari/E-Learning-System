@@ -31,7 +31,7 @@
 
 ## Contributing
 
-1. Fork [Expertise Learning](https://github.com/tauseefansari/Expertise-Learning-Certification-Website)
+1. Fork [E-Learning System](https://github.com/tauseefansari/E-Learning-System)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
