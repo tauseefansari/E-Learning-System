@@ -110,7 +110,7 @@
             $query = mysqli_query($con, "INSERT INTO student (name,profilePic,email,mobile,qualification,address,password) VALUES ('$name','$propic','$email','$mobile','$quali','$address','$encPassword')");
             if($query)
             {
-              $_SESSION['addstudents'] = "Your Password is ".$password;
+              $_SESSION['addstudents'] = "Password has been sent to your email!";
               $mail = new PHPMailer;
               $mail->IsSMTP();        //Sets Mailer to send message using SMTP
               $mail->Host = 'smtp.gmail.com';  //Sets the SMTP hosts of your Email hosting, this for Godaddy
@@ -177,6 +177,12 @@
           $_SESSION['invalid'] = "Invalid Email or Password!";
           header("Location: index.php");
       }
+  }
+
+  if(isset($_POST['delete_btn_set']))
+  {
+      $key=$_POST['delete_id'];
+      $query2=mysqli_query($con,"UPDATE student SET disable=1 WHERE id=$key");
   }
 
   if(isset($_POST['change_password']))

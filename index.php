@@ -93,7 +93,12 @@
           <nav class="nav-menu d-none d-lg-block">
             <ul>
               <li class="active"><a href="index.php">Home</a></li>
-              <li><a href="#portfolio">Courses</a></li>
+              <li class="drop-down"><a href="">Courses</a>
+                <ul>
+                  <li><a href="#portfolio">Out Top Courses</a></li>
+                  <li><a href="courses.php">All Courses</a></li>
+                </ul>
+              </li>
               <li><a href="#about">About Us</a></li>
               <!-- <li class="drop-down"><a href="">Course</a>
                 <ul>

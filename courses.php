@@ -71,17 +71,17 @@
     <nav class="navbar navbar-expand-lg navbar-dark primary-color mt-5 mb-2">
 
       <!-- Navbar brand -->
-      <a class="font-weight-bold white-text mr-4" href="#">Our Courses</a>
+      <a class="font-weight-bold white-text mr-4" href="courses.php">Our Courses</a>
 
       <!-- Collapsible content -->
       <div class="navbar-nav ml-auto" id="navbarSupportedContent1">
 
         <!-- Search form -->
-        <form class="search-form ml-auto mx-2" role="search">
+        <form class="search-form ml-auto mx-2" role="search" name="ser">
 
           <div class="form-group md-form my-0 waves-light">
 
-            <input type="search" class="form-control" placeholder="Search">
+            <input type="search" name="search" class="form-control" placeholder="Search" onkeypress="handle(event)">
 
           </div>
 
@@ -96,6 +96,25 @@
 
     <!-- Inside Main Container -->
   <div class="container wow animated bounce">
+    <?php 
+        $results_per_page = 9;
+            $where = "";
+
+            if(isset($_GET['search']))
+            {
+              $search=$_GET['search'];
+              $where = "WHERE name LIKE '%$search%' OR domain LIKE '%$search%'";
+              $query = mysqli_query($con, "SELECT * FROM courses ".$where);  
+            }
+            else
+            {
+              $query = mysqli_query($con, "SELECT * FROM courses");
+            }
+
+            $num_of_pages = ceil(mysqli_num_rows($query)/$results_per_page);
+            if($num_of_pages <= 0)
+              echo "<p class='h3 responsive text-center mt-5 font-weight-bold'> No Results found! </p>";
+      ?>
 
     <div class="row pt-4">
 
@@ -108,11 +127,6 @@
           <!-- Grid row -->
           <div class="row">
           <?php
-            $results_per_page = 9;
-
-            $query = mysqli_query($con, "SELECT * FROM courses");
-
-            $num_of_pages = ceil(mysqli_num_rows($query)/$results_per_page);
 
             if(!isset($_GET['page']))
             {
@@ -125,7 +139,7 @@
 
             $page_result = ($page - 1)*$results_per_page;
 
-            $query2 = mysqli_query($con, "SELECT * FROM courses LIMIT ".$page_result." , 3");
+            $query2 = mysqli_query($con, "SELECT * FROM courses ".$where." LIMIT ".$page_result." , 3");
 
             while($row = mysqli_fetch_array($query2))
             {
@@ -213,7 +227,7 @@
 
                         </span>
 
-                        <span class="float-right">
+                        <!-- <span class="float-right">
 
                           <a class="" data-toggle="tooltip" data-placement="top" title="Requst to Purchase">
 
@@ -221,7 +235,7 @@
 
                           </a>
 
-                        </span>
+                        </span> -->
 
                       </div>
 
@@ -245,13 +259,13 @@
           <div class="row">
           <?php
 
-            $query3 = mysqli_query($con, "SELECT * FROM courses LIMIT ".($page_result+3)." , 3");
+            $query3 = mysqli_query($con, "SELECT * FROM courses ".$where." LIMIT ".($page_result+3)." , 3");
 
             while($row = mysqli_fetch_array($query3))
             {
           ?>
               <!-- Grid column -->
-              <div class="col-lg-4 col-md-12 mb-4 wow animated bounceInLeft" data-wow-delay="0.8s">
+              <div class="col-lg-4 col-md-12 mb-4 wow animated bounceInLeft" data-wow-delay="0.3s">
 
                 <!-- Card -->
                 <div class="card card-ecommerce">
@@ -333,7 +347,7 @@
 
                         </span>
 
-                        <span class="float-right">
+                        <!-- <span class="float-right">
 
                           <a class="" data-toggle="tooltip" data-placement="top" title="Requst to Purchase">
 
@@ -341,7 +355,7 @@
 
                           </a>
 
-                        </span>
+                        </span> -->
 
                       </div>
 
@@ -365,13 +379,13 @@
           <div class="row">
           <?php
 
-            $query4 = mysqli_query($con, "SELECT * FROM courses LIMIT ".($page_result+6)." , 3");
+            $query4 = mysqli_query($con, "SELECT * FROM courses ".$where." LIMIT ".($page_result+6)." , 3");
 
             while($row = mysqli_fetch_array($query4))
             {
           ?>
               <!-- Grid column -->
-              <div class="col-lg-4 col-md-12 mb-4 wow animated bounceInRight" data-wow-delay="0.8s">
+              <div class="col-lg-4 col-md-12 mb-4 wow animated bounceInRight" data-wow-delay="0.3s">
 
                 <!-- Card -->
                 <div class="card card-ecommerce">
@@ -453,7 +467,7 @@
 
                         </span>
 
-                        <span class="float-right">
+                        <!-- <span class="float-right">
 
                           <a class="" data-toggle="tooltip" data-placement="top" title="Requst to Purchase">
 
@@ -461,7 +475,7 @@
 
                           </a>
 
-                        </span>
+                        </span> -->
 
                       </div>
 
@@ -737,6 +751,14 @@
 
     // SideNav Initialization
     $(".button-collapse").sideNav();
+
+    function handle(e){
+      var search = document.forms["ser"]["search"].value;
+        if(e.keyCode === 13){
+            e.preventDefault(); // Ensure it is only this code that rusn
+            window.location = 'courses.php?search='+search;
+        }
+    }
 
   </script>
 

@@ -130,11 +130,11 @@
               <strong>Duration : </strong><?php echo $result['duration']; ?> Months</p>
 
 
-            <p class="float-right">
+           <!--  <p class="float-right">
 
               <button class="btn btn-primary btn-rounded">
 
-                      <i class="fas fa-cart-plus mr-2" aria-hidden="true"></i> Requst to Purchase</button></p>
+                      <i class="fas fa-cart-plus mr-2" aria-hidden="true"></i> Requst to Purchase</button></p> -->
 
           </div>
 
@@ -387,7 +387,7 @@
 
                         </span>
 
-                        <span class="float-right">
+                        <!-- <span class="float-right">
 
                           <a class="" data-toggle="tooltip" data-placement="top" title="Requst to Purchase">
 
@@ -395,7 +395,7 @@
 
                           </a>
 
-                        </span>
+                        </span> -->
 
                       </div>
 
