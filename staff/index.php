@@ -6,6 +6,10 @@
   {
     $id=$_SESSION['staff_id'];
   }
+  else
+  {
+  	header("Location: ../index.php");
+  }
 ?>
 
 
