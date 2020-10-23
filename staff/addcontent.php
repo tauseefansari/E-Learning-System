@@ -5,11 +5,21 @@
   if(isset($_SESSION['staff_id']))
   {
   	$id=$_SESSION['staff_id'];
+  	$manageBy = $_SESSION['login_staff'];
   }
   else
   {
     header("Location: ../index.php");
   }
+
+  if(isset($_GET['course']))
+  {
+  	$courseid = $_GET['course'];
+  	$_SESSION['courseid'] = $courseid;
+  }
+
+  $query = mysqli_query($con, "SELECT * FROM courses WHERE id = '$courseid'");
+  $row = mysqli_fetch_array($query);
 ?>
 
 
@@ -35,8 +45,10 @@
   <link rel="stylesheet" href="../assets/css/addons/datatables-select.min.css">
   
   <!-- Favicons -->
-  <link href="../assets/assets/img/favicon.png" rel="icon">
+  <link href="../assets/img/favicon.png" rel="icon">
   <!-- <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
+
+  <link href="../assets/css/dropzone.css" rel="stylesheet" type="text/css">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
@@ -56,6 +68,10 @@
 
   <script src="../assets/js/sweetalert.js"></script>
   <script src="../assets/js/tinymce/tinymce.min.js"></script>
+
+  <script type="text/javascript" src="../assets/js/jquery-3.4.1.min.js"></script>
+
+  <script src="../assets/js/dropzone.js" type="text/javascript"></script>
   
   <style type="text/css">
 
@@ -80,6 +96,67 @@
       background-color :  #18d26e;
     }
 
+
+    .fa-play:before {
+        margin-left: .3rem;
+      }
+
+      /* Steps */
+      .step {
+        list-style: none;
+        margin: 0;
+      }
+
+      .step-element {
+        display: flex;
+        padding: 1rem 0;
+      }
+
+      .step-number {
+        position: relative;
+        width: 7rem;
+        flex-shrink: 0;
+        text-align: center;
+      }
+
+      .step-number .number {
+        color: #bfc5ca;
+        background-color: #eaeff4;
+        font-size: 1.5rem;
+      }
+
+      .step-number .number {
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+      }
+
+      .number {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 38px;
+        border-radius: 10rem;
+      }
+
+      .step-number::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 48px;
+        bottom: -2rem;
+        margin-left: -1px;
+        border-left: 2px dashed #eaeff4;
+      }
+
+      .step .step-element:last-child .step-number::before {
+        bottom: 1rem;
+      }
+
+      .fit-card{
+      width: 20%;
+      height: 20%;
+    }
   </style>
 
 </head>
@@ -88,10 +165,36 @@
 
   <?php include_once('includes/header.php'); ?>
 
+  <?php
+      if(isset($_SESSION["contentadded"]))
+        {
+          $status="";
+          if($_SESSION['contentadded']=="Course content added successfully!")
+          {
+            $status = "success";  
+          }
+          else
+          {
+            $status = "error";
+          }
+      ?>
+          <script>
+            swal({
+              title: "Course Content",
+              text: "<?php echo $_SESSION["contentadded"]; ?>",
+              icon: "<?php echo $status; ?>",
+              button: "Okay!",
+          });
+          </script>
+      <?php
+          unset($_SESSION['contentadded']);
+        }
+      ?>
+
   <!-- Main layout -->
   <main>
 
-    <div class="container">
+    <div class="container-fluid">
 
       <!-- Section: Create Page -->
       <section class="my-5">
@@ -100,83 +203,188 @@
         <div class="row">
 
           <!-- Grid column -->
-          <div class="col-lg-8">
+          <div class="col-lg-7 wow animated swing">
 
             <!-- Card -->
             <div class="card card-cascade narrower mb-5">
 
               <!-- Card image -->
               <div class="view view-cascade gradient-card-header blue-gradient">
-                <h4 class="font-weight-500 mb-0 font-weight-bold">Course Content</h4>
+                <h4 class="font-weight-500 mb-0 font-weight-bold"><?php echo $row['name']; ?> Contents</h4>
               </div>
               <!-- Card image -->
 
               <!-- Card content -->
               <div class="card-body card-body-cascade">
-                <div class="md-form mt-1 mb-4">
-                  <input type="text" id="form1" class="form-control" value="">
-                  <label class="form-check-label" for="form1" class="">Content Title</label>
-                </div>
-                <!-- Second card -->
-                <label>Content Description</label>
-            <div class="card mb-4">
-              <textarea name="" id="editor"></textarea>
-            </div>
-            <!-- Second card -->
-                
-                <div class="text-right">
-                  <button class="btn btn-flat waves-effect">Discard</button>
-                  <button class="btn btn-primary">Submit</button>
-                </div>
+                <?php
+                  $target_dir = "../assets/img/coursefiles/".$row['name']."/"; 
+                  $count = 1;
+                  $query = mysqli_query($con, "SELECT * FROM coursecontent WHERE courseid = '$courseid'");
+                  if(mysqli_num_rows($query) == 0)
+                  {
+                  	echo '<h3 class="font-weight-bold dark-grey-text text-center"> No Contents found!</h3>';
+                  }
+                  while ($row = mysqli_fetch_array($query))
+                  {
+                  	$contentid = $row['id'];
+                ?>
+                <div class="col-lg-12 mb-4">
+    		          <ol class="step pl-0">
+    		          <li class="step-element pb-0 wow animated slideInDown" data-wow-delay="0.2s">
+    		            <div class="step-number">
+    		              <span class="number"><?php echo $count; ?></span>
+    		            </div>
+    		            <div class="step-excerpt col-lg-10">
+    		              <h4 class="font-weight-bold dark-grey-text mb-3"><?php echo $row['title']; ?></h4>
+    		              <!-- Accordion card -->
+    		          <div class="card">
 
-              </div>
-              <!-- Card content -->
+    		          <!-- Card header -->
+    		          <div class="card-header">
+    		            <h5 class="mb-0">
+    		              <strong>Description</strong>
+                      <a href="#"><i class="fas fa-trash pull-right ml-2" style="color: red;"></i></a>
+    		              <a href="#"><i class="fas fa-edit pull-right ml-2 text-primary"></i></a>
+    		            </h5>
+    		          </div>
 
-            </div>
-            <!-- Card -->
+		            <!-- Card body -->
+		            <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+		              data-parent="#accordionEx">
+		              <div class="card-body">
+		              <?php echo $row['description']; ?>
+                  </div>
+		            </div>
+		          </div>
+		          <!-- Accordion card -->
+    		          
+              <!--Accordion wrapper-->
+				        <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+				          <!-- Accordion card -->
+				          <div class="card">
+
+				            <!-- Card header -->
+				            <div class="card-header" role="tab" id="heading<?php echo $count; ?>">
+				              <a class="collapsed text-primary" data-toggle="collapse" data-parent="#accordionEx" href="#collapse<?php echo $count; ?>"
+				                aria-expanded="false" aria-controls="collapse<?php echo $count; ?>">
+				                <h5 class="mb-0">
+				                  <strong>Course Files</strong>
+				                  <i class="fas fa-angle-down rotate-icon"></i>
+                          			<a href="fileupload.php?contentid=<?php echo $row['id']; ?>"><i class="fas fa-file-upload pull-right mr-3 text-primary"></i></a>
+				                </h5>
+				              </a>
+				            </div>
+
+				            <!-- Card body -->
+				            <div id="collapse<?php echo $count; ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?php echo $count; ?>"
+				              data-parent="#accordionEx">
+				              <div class="card-body">
+				                <?php
+				                	$query2 = mysqli_query($con, "SELECT * FROM coursefiles WHERE contentid = '$contentid' LIMIT 3");
+				                	if(mysqli_num_rows($query2) == 0)
+				                	{
+				                		echo '<h4 class="font-weight-bold dark-grey-text text-center"> No Files found!</h4>';
+				                	}
+				                	else
+				                	{
+				                ?>
+					                <?php
+					                  	while($row2 = mysqli_fetch_array($query2))
+					                  	{ 
+					                	$filePath = $target_dir.$row2["filename"]; 
+	            						$fileMime = mime_content_type($filePath); 
+						                if($fileMime == "image/png")
+						                {
+						              ?>
+						                <img src="<?php echo $filePath; ?>" type="<?php echo $fileMime; ?>" class="fit-card">
+						              <?php 
+						                }
+						                else if($fileMime == "video/mp4")
+						                {
+						              ?>
+						                <video class="fit-card" controls>
+						                  <source src="<?php echo $filePath; ?>" type="video/mp4">
+						                    Your browser does not support the video tag.
+						                </video>
+						              <?php 
+						                }
+						                else if($fileMime == "application/octet-stream")
+						                {
+						              ?>
+						              <audio controls>
+						                <source src="<?php echo $filePath; ?>" type="audio/ogg">
+						                  Your browser does not support the audio element.
+						              </audio>
+						              <?php 
+						                }
+						                else
+						                {
+						              ?>
+						              <embed src="<?php echo $filePath; ?>" type="<?php echo $fileMime; ?>" class="fit-card">
+						              <?php 
+						                }
+						            
+					        		}
+				                ?>
+				              </div>
+				              <h6 class="text-center p-2"><a href="fileupload.php?contentid=<?php echo $row['id']; ?>" class="text-primary"><strong>View / Manage All Files </strong></a></h6>
+				              <?php 
+				              	}
+				              ?>
+				            </div>
+				          </div>
+				          <!-- Accordion card -->
+    				    </div>
+    				    <!-- Accordion wrapper-->
+    		      </div>
+    		    </li>
+    		  </ol>
+		      </div>
+          <?php
+            $count++; 
+            }
+          ?>
+        </div>
+        <!-- Card content -->
+
+        </div>
+        <!-- Card -->
 
           </div>
           <!-- Grid column -->
 
           <!-- Grid column -->
-          <div class="col-lg-4">
+          <div class="col-lg-5 wow animated bounceInLeft" data-wow-delay="0.4s">
               <!-- Card -->
             <div class="card card-cascade narrower">
 
               <!-- Card image -->
               <div class="view view-cascade gradient-card-header blue-gradient">
-                <h4 class="font-weight-500 mb-0 font-weight-bold">Contents</h4>
+                <h4 class="font-weight-500 mb-0 font-weight-bold">Add Contents</h4>
               </div>
               <!-- Card image -->
 
               <!-- Card content -->
               <div class="card-body card-body-cascade">
-                <fieldset class="form-check mb-4">
-                  <input class="form-check-input" type="checkbox" id="color-1">
-                  <label class="form-check-label" for="color-1">Material Design</label>
-                </fieldset>
-                <fieldset class="form-check mb-4">
-                  <input class="form-check-input" type="checkbox" id="color-2">
-                  <label class="form-check-label" for="color-2">Tutorials</label>
-                </fieldset>
-                <fieldset class="form-check mb-4">
-                  <input class="form-check-input" type="checkbox" id="color-3">
-                  <label class="form-check-label" for="color-3">Marketing Automation</label>
-                </fieldset>
-                <fieldset class="form-check mb-4">
-                  <input class="form-check-input" type="checkbox" id="color-4">
-                  <label class="form-check-label" for="color-4">Design Resources</label>
-                </fieldset>
-                <fieldset class="form-check">
-                  <input class="form-check-input" type="checkbox" id="color-5">
-                  <label class="form-check-label" for="color-5">Random Stories</label>
-                </fieldset>
+                <div class="md-form mt-1 mb-4 wow animated bounceInDown" data-wow-delay="0.5s">
+                  <input type="text" id="form1" class="form-control" value="" required>
+                  <label class="form-check-label" for="form1" class="">Content Title</label>
+                </div>
+                <!-- Second card -->
+                <label>Content Description</label>
+            <div class="card mb-4 wow animated bounceInDown" data-wow-delay="0.5s">
+              <textarea name="" id="editor" required></textarea>
+            </div>
+            <div class="text-right">
+                  <button class="btn btn-flat waves-effect">Discard</button>
+                  <button class="btn btn-primary" id="add">Submit</button>
+                </div>
               </div>
               <!-- Card content -->
 
             </div>
             <!-- Card -->
-
             
           </div>
           <!-- Grid column -->
@@ -229,35 +437,9 @@
   </div>
 </div>
 
-
-<div class="modal fade wow animated rotateIn" id="myModal" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-         <div class="modal-content">
-
-      <form class="text-center p-5" method="post" action="../backend.php" enctype="multipart/form-data"> 
-          <h1 class="h3 text-primary mb-2"><b>Change Profile Picture</b></h1>
-        <!-- image -->
-        <div class="bgColor">
-          <div id="targetOuter">
-            <div id="targetLayer"></div>
-            <img src="" class="icon-choose-image" />
-            <div class="icon-choose-image">
-            <input name="propic" id="propic" type="file" class="inputFile" onChange="showPreview(this);">
-            </div>
-          </div>
-        </div>
-          <!-- Send button -->
-          <button class="btn btn-info btn-md ok" data-toggle="modal" data-target="#myModal" style="visibility: hidden;" name="upload_staff" type="submit">Upload</button>
-          <button class="btn btn-danger btn-md" data-dismiss="modal" aria-label="Close">Cancel</button>
-      </form>
-    </div>
-  </div>
-</div>
-
   <!-- Footer -->
   <!-- SCRIPTS -->
   <!-- JQuery -->
-  <script type="text/javascript" src="../assets/js/jquery-3.4.1.min.js"></script>
 
   <!-- Bootstrap tooltips -->
   <script type="text/javascript" src="../assets/js/popper.min.js"></script>
@@ -300,7 +482,6 @@
         fileReader.readAsDataURL(objFileInput.files[0]);
         }
     }
-
     
 
   </script>
@@ -314,16 +495,56 @@ tinymce.init({
   selector: 'textarea#editor',
   plugins: 'print preview paste importcss autolink autosave directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable charmap emoticons',
   menubar: false,
-  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | quicktable | charmap emoticons | fullscreen  preview print |  link',
+  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | quicktable | charmap |  preview print |  link',
   quickbars_insert_toolbar: false,
-  height: 400
+  height: 200
  });
 
   
-  $(".sub").click(function(){
+  /*$(".sub").click(function(){
         var str = tinymce.get('editor').getContent();
         alert("Hello "+str);
-    });
+    });*/
+
+    // $(document).ready(function(){
+    //         $("#myAwesomeDropzone").hide();
+    //         $("#cid").hide();
+    //         $("#form1").keyup(function(e){
+    //         if($("#form1").val() != "" && e.keyCode != 32)
+    //         {
+    //         	$("#cid").show();
+    //             $("#myAwesomeDropzone").show();
+    //         }
+    //         else
+    //         {
+    //         	$("#cid").hide();
+    //             $("#myAwesomeDropzone").hide();
+    //         }
+    //     });
+    //     });
+
+    $("#add").click(function(){
+	  var title = $("#form1").val();
+	  var desc = tinymce.get('editor').getContent();
+	  if(title == "" || desc == "")
+	  {
+	  	swal("Both Fields are Mandatory!",{icon: "warning"})
+	  }
+	  else
+	  {
+	  	$.ajax({
+            type: 'POST',
+            url: 'upload.php',
+            data: {title: title, desc: desc, add: 1},
+            success: function(data)
+            {
+            	tinymce.activeEditor.setContent("");
+                location.reload();
+            }
+        });
+	  }
+	});
+
 </script>
 
 </body>
