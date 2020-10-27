@@ -79,6 +79,23 @@
       }
     ?>
 
+    <?php
+    if(isset($_SESSION["password_change"]))
+      {
+    ?>
+        <script>
+          swal({
+            title: "Password Change!",
+            text: "<?php echo $_SESSION["password_change"]; ?>",
+            icon: "success",
+            button: "Okay!",
+        });
+        </script>
+    <?php
+        unset($_SESSION['password_change']);
+      }
+    ?>
+
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top header-transparent">
     <div class="container-fluid">
@@ -822,7 +839,7 @@
                     <!-- Footer -->
                     <div class="modal-footer">
                       <div class="options text-center text-md-right mt-1">
-                        <p><a href="#" class="blue-text">Forgot Password?</a></p>
+                        <p><a href="javascript:void(0)" class="blue-text forget_btn_student">Forgot Password?</a></p>
                       </div>
                       <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
                     </div>
@@ -855,7 +872,7 @@
                     <!-- Footer -->
                     <div class="modal-footer">
                       <div class="options text-center text-md-right mt-1">
-                        <p><a href="#" class="blue-text">Forgot Password?</a></p>
+                        <p><a href="javascript:void(0)" class="blue-text forget_btn_staff">Forgot Password?</a></p>
                       </div>
                       <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
                     </div>
@@ -900,6 +917,77 @@
   <script type="text/javascript" src="assets/js/mdb.min.js"></script>
 
   <script>
+    $(document).ready(function(){
+      //Staff
+      $(".forget_btn_staff").click(function()
+      {
+          $("#modalLRFormDemo").hide();
+          var email = null;
+          swal({
+              content: {
+                  element: "input",
+                  attributes: {
+                      placeholder: "Enter your resistered email",
+                      type: "email",
+                  }
+              }
+          })
+          .then(function(value) {
+              email = value;
+              $.ajax({
+                type: "POST",
+                url: "backend.php",
+                data: {
+                    "staff_set" : 1,
+                    "email" : email,
+                },
+                success: function(dataResult)
+                {
+                  swal("Link to reset password sent to your email!",{
+                     icon: "success",
+                    }).then((result) => {
+                    location.reload();
+                  });
+                }
+            });
+          });
+      });
+
+      //Student
+      $(".forget_btn_student").click(function()
+      {
+          $("#modalLRFormDemo").hide();
+          var email = null;
+          swal({
+              content: {
+                  element: "input",
+                  attributes: {
+                      placeholder: "Enter your resistered email",
+                      type: "email",
+                  }
+              }
+          })
+          .then(function(value) {
+              email = value;
+              $.ajax({
+                type: "POST",
+                url: "backend.php",
+                data: {
+                    "student_set" : 1,
+                    "email" : email,
+                },
+                success: function(dataResult)
+                {
+                  swal("Link to reset password sent to your email!",{
+                     icon: "success",
+                    }).then((result) => {
+                    location.reload();
+                  });
+                }
+            });
+          });
+      });
+    });
     
   </script>  
 

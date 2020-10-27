@@ -493,9 +493,9 @@ var useLightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
 
 tinymce.init({
   selector: 'textarea#editor',
-  plugins: 'print preview paste importcss autolink autosave directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable charmap emoticons',
+  plugins: 'print preview paste importcss autolink autosave directionality code visualblocks visualchars image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable charmap emoticons',
   menubar: false,
-  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | quicktable | charmap |  preview print |  link',
+  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | quicktable | charmap | preview print |  link',
   quickbars_insert_toolbar: false,
   height: 200
  });

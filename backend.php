@@ -1,12 +1,13 @@
 <?php 
-
-	 session_start();
-
+    
+    session_start();
   	use PHPMailer\PHPMailer\PHPMailer;
   	use PHPMailer\PHPMailer\SMTP;
   	use PHPMailer\PHPMailer\Exception;
   	require 'vendor/autoload.php';
   	require 'database.php';
+
+    
   	//User Query form functionality
 	if(isset($_POST["sendmail"]))
   	{
@@ -143,7 +144,7 @@
   {
       $email=$_POST['staff_email'];
       $password=md5($_POST['staff_password']);
-      $sql = "SELECT id,name FROM staff WHERE email='$email' and password='$password'";
+      $sql = "SELECT id,name FROM staff WHERE email='$email' and password='$password' AND disable=0";
       $query = mysqli_query($con, $sql);
       $results = mysqli_fetch_array($query);
       if(mysqli_num_rows($query) > 0)
@@ -163,7 +164,7 @@
   {
       $email=$_POST['student_email'];
       $password=md5($_POST['student_password']);
-      $sql = "SELECT id,name FROM student WHERE email='$email' and password='$password'";
+      $sql = "SELECT id,name FROM student WHERE email='$email' and password='$password' AND disable=0";
       $query = mysqli_query($con, $sql);
       $results = mysqli_fetch_array($query);
       if(mysqli_num_rows($query) > 0)
@@ -331,6 +332,85 @@
     {
       $_SESSION['updated_staff'] = "Staff Details Update Failed! Please retry!";
       header("Location: staff/myaccount.php"); 
+    }
+  }
+
+  if(isset($_POST['staff_set']))
+  {
+      $email = $_POST['email'];
+      $query = mysqli_query($con,"SELECT * FROM staff WHERE email = '$email'");
+      $res = mysqli_fetch_array($query);
+      $userid = $res['id'];
+      $link='http://localhost/elearning/resetpassword.php?user='.$userid.'&type=staff';      
+      if($query)
+      {
+        $mail = new PHPMailer;
+        $mail->IsSMTP();        //Sets Mailer to send message using SMTP
+        $mail->Host = 'smtp.gmail.com';  //Sets the SMTP hosts of your Email hosting, this for Godaddy
+        $mail->Port = '587';        //Sets the default SMTP server port
+        $mail->SMTPAuth = true;       //Sets SMTP authentication. Utilizes the Username and Password variables
+        $mail->Username = 'learnerexpertise60@gmail.com';     //Sets SMTP username
+        $mail->Password = 'zakiyakhan123';     //Sets SMTP password
+        $mail->SMTPSecure = 'tls';       //Sets connection prefix. Options are "", "ssl" or "tls"
+        $mail->SetFrom("learnerexpertise60@gmail.com", "MindScript");   //Sets the From email address for the 
+        $mail->AddAddress($email, 'Mindscript');  //Adds a "To" address       //Sets word wrapping on the body of the message to a given 
+        $mail->IsHTML(true);       //Sets message type to HTML
+        $mail->Subject = "Forgot Password Expertise Learning";    //Sets the Subject of the message
+        $message = '<b> Your password forgot request is receiver <br><br> Your Email is '.$email.' Click on the below link to forget/reset your password <br><br> <a href="'.$link.'">www.expertiselearning.com/staff/password/forgot/userid/'.md5($email).'</a>  <br><br> Thanks from Expertise Learning';
+        $mail->Body = $message;       //An HTML or plain text message body
+        $mail->Send();
+      }
+      else
+      {
+        echo "Error";      
+      }
+  }
+
+  if(isset($_POST['student_set']))
+  {
+      $email = $_POST['email'];
+      $query = mysqli_query($con,"SELECT * FROM student WHERE email = '$email'");
+      $res = mysqli_fetch_array($query);
+      $userid = $res['id'];
+      $link='http://localhost/elearning/resetpassword.php?user='.$userid.'&type=student';      
+      if(mysqli_num_rows($query) > 0)
+      {
+        $mail = new PHPMailer;
+        $mail->IsSMTP();        //Sets Mailer to send message using SMTP
+        $mail->Host = 'smtp.gmail.com';  //Sets the SMTP hosts of your Email hosting, this for Godaddy
+        $mail->Port = '587';        //Sets the default SMTP server port
+        $mail->SMTPAuth = true;       //Sets SMTP authentication. Utilizes the Username and Password variables
+        $mail->Username = 'learnerexpertise60@gmail.com';     //Sets SMTP username
+        $mail->Password = 'zakiyakhan123';     //Sets SMTP password
+        $mail->SMTPSecure = 'tls';       //Sets connection prefix. Options are "", "ssl" or "tls"
+        $mail->SetFrom("learnerexpertise60@gmail.com", "MindScript");   //Sets the From email address for the 
+        $mail->AddAddress($email, 'Mindscript');  //Adds a "To" address       //Sets word wrapping on the body of the message to a given 
+        $mail->IsHTML(true);       //Sets message type to HTML
+        $mail->Subject = "Forgot Password Expertise Learning";    //Sets the Subject of the message
+        $message = '<b> Your password forgot request is receiver <br><br> Your Email is '.$email.' Click on the below link to forget/reset your password <br><br> <a href="'.$link.'">www.expertiselearning.com/student/password/forgot/userid/'.md5($email).'</a>  <br><br> Thanks from Expertise Learning';
+        $mail->Body = $message;       //An HTML or plain text message body
+        $mail->Send();
+      }
+      else
+      {
+        echo "Error";
+      }
+  }
+
+  if(isset($_POST['pass']))
+  {
+    $id = $_GET['id'];
+    $type = $_GET['type'];
+    $password = md5($_POST['password']);
+    if($type == "student")
+    {
+      $query = mysqli_query($con, "UPDATE student SET password = '$password' WHERE id = '$id'");
+      $_SESSION['password_change'] = "Password Changed Successfully!";
+    }
+    else if($type == "staff")
+    {
+      $query = mysqli_query($con, "UPDATE staff SET password = '$password' WHERE id = '$id'");
+      $_SESSION['password_change'] = "Password Changed Successfully!";
     }
   }
 ?>

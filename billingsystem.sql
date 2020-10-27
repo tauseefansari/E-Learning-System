@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2020 at 01:45 PM
+-- Generation Time: Oct 27, 2020 at 03:19 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -67,6 +67,55 @@ CREATE TABLE `appliedcourses` (
 INSERT INTO `appliedcourses` (`id`, `studentId`, `courseId`, `courseName`, `progress`, `joiningDate`, `certificate`) VALUES
 (1, 1, 2, 'Artificial Intelligence', 100, '2020-09-22 14:50:43', 'No'),
 (2, 1, 3, 'Machine Learning', 60, '2020-09-23 06:52:28', 'No');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coursecontent`
+--
+
+CREATE TABLE `coursecontent` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `courseid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `coursecontent`
+--
+
+INSERT INTO `coursecontent` (`id`, `title`, `description`, `courseid`) VALUES
+(1, 'My Title', '<p>dladla</p>\n<p>dn;ak;da</p>\n<p>adnk</p>', 14),
+(2, 'Tauseef', '<p>Hello User</p>', 14),
+(3, 'Tauseef', '<p>hELLO KLNAKNFKA</p>', 14),
+(4, 'My Content 1', '<p>Hello User</p>\n<p>This is just for Test</p>', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coursefiles`
+--
+
+CREATE TABLE `coursefiles` (
+  `id` int(11) NOT NULL,
+  `contentid` int(11) NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `size` varchar(50) NOT NULL,
+  `uploaded_on` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `coursefiles`
+--
+
+INSERT INTO `coursefiles` (`id`, `contentid`, `filename`, `size`, `uploaded_on`) VALUES
+(31, 3, 'Xylophone.apk', '6,07 MB', '2020-10-23 16:04:12'),
+(32, 3, 'Intro.mp4', '5,35 MB', '2020-10-23 16:07:22'),
+(34, 3, 'GoldIgnot.java', '866 B', '2020-10-23 16:10:42'),
+(35, 1, 'Palind.py', '850 B', '2020-10-23 16:12:47'),
+(36, 4, 'FillCube.py', '820 B', '2020-10-23 16:14:08'),
+(37, 4, 'GoldIgnot.py', '926 B', '2020-10-23 16:15:49');
 
 -- --------------------------------------------------------
 
@@ -156,7 +205,7 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id`, `name`, `profilePic`, `email`, `mobile`, `qualification`, `address`, `subjectTaken`, `joiningDate`, `password`, `disable`) VALUES
-(1, 'Tauseef Ansari', 'c46cd651c4a1bf7ded506fd192c019021600433083.jpg', 'tauseeftanvir@gmail.com', 9321391048, 'Engineer', 'Mumbai Maharashtra', 'Java Programming', '2020-09-19', '543284b3413aa53934514fe0b2d6d436', 0),
+(1, 'Tauseef Ansari', 'B612_20180617_184822_210.jpg1601905829.jpg', 'tauseeftanvir@gmail.com', 9321391048, 'Engineer', 'Mumbai Maharashtra', 'Artificial Intelligence', '2020-09-19', '543284b3413aa53934514fe0b2d6d436', 0),
 (2, 'Zakiya Khan', 'b1d41e8f8ef8d551358c7b61f76993501600433094.png', 'zakiyakhan9746@gmail.com', 9876543210, 'Graduate', 'Mumbai', 'Python Programming', '2020-09-20', '85bd570b387d5cb4e982c600d7066ba9', 0),
 (3, 'Mohsin Essani', '94f512a17a11048b4d473f272918efbb1600774532.jpg', 'mohsinessani@gmail.com', 9876543210, 'Engineer', 'Dongri, Mumbai', 'Node JS', '2020-09-15', 'd38509b02c3af7545dc345630382cdeb', 0),
 (4, 'Hamza Chowdhury', 'ddc01577479ff46e6d42027edc5fba5c1600774634.jpg', 'hamzachowdhry@gmail.com', 9325826987, 'Engineer', 'Dongri, Abdul Rehmaan Street, Mumbai', 'Artificial Intelligence', '2019-11-02', '28936322a5eb164c9ced5a0166f93f15', 0),
@@ -187,10 +236,10 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`id`, `name`, `profilePic`, `email`, `mobile`, `qualification`, `address`, `joiningDate`, `placement`, `password`, `disable`) VALUES
-(1, 'Tauseef Ansari', '2018-06-18-11-48-29-381.jpg1601897436.jpg', 'tauseeftanvir@gmail.com', 9321391048, 'Engineer', 'Mumbai, India', '2020-09-23', 'No', '543284b3413aa53934514fe0b2d6d436', 0),
+(1, 'Tauseef Ansari', 'B612_20180127_090047.jpg1601901994.jpg', 'tauseeftanvir@gmail.com', 9321391048, 'Engineer', 'Mumbai, India', '2020-09-23', 'No', '543284b3413aa53934514fe0b2d6d436', 0),
 (2, 'Zakiya Khan', 'b1d41e8f8ef8d551358c7b61f76993501600433094.png1600957089.png', 'zakiyakhan9746@gmail.com', 9876543210, 'Engineer', 'Mumbai', '2020-09-24', 'No', '927273d442d08db04cd67ea714c7426b', 0),
 (3, 'Mohsin Essani', '94f512a17a11048b4d473f272918efbb1600774532.jpg1600957210.jpg', 'mohsinessani@gmail.com', 9967867833, 'Masters', 'Mumbai', '2020-09-24', 'No', 'eec00e82e35ac5a359a7e1f871a991b6', 0),
-(4, 'Hamza Chowdhury', 'ddc01577479ff46e6d42027edc5fba5c1600774634.jpg1600958372.jpg', 'hamzachowdhry@gmail.com', 9873213654, 'Masters', 'Mumbai', '2020-09-24', 'No', 'af89b8036a2a955681081807748ef8b8', 0),
+(4, 'Hamza Chowdhury', 'ddc01577479ff46e6d42027edc5fba5c1600774634.jpg1600958372.jpg', 'hamzachowdhry@gmail.com', 9873213654, 'Masters', 'Mumbai', '2020-09-24', 'No', 'af89b8036a2a955681081807748ef8b8', 1),
 (5, 'Hamza Chowdhury', 'ddc01577479ff46e6d42027edc5fba5c1600774634.jpg1600958557.jpg', 'hamzachowdhry123@gmail.com', 1234567890, 'Masters', 'Mumbai', '2020-09-24', 'No', 'a60cea2beeb73f56fcd3cf8f2929db23', 0);
 
 --
@@ -207,6 +256,18 @@ ALTER TABLE `admin`
 -- Indexes for table `appliedcourses`
 --
 ALTER TABLE `appliedcourses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `coursecontent`
+--
+ALTER TABLE `coursecontent`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `coursefiles`
+--
+ALTER TABLE `coursefiles`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -248,6 +309,18 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `appliedcourses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `coursecontent`
+--
+ALTER TABLE `coursecontent`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `coursefiles`
+--
+ALTER TABLE `coursefiles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `courses`
