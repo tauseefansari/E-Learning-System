@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 27, 2020 at 03:19 PM
+-- Generation Time: Dec 24, 2020 at 02:16 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -54,8 +54,7 @@ CREATE TABLE `appliedcourses` (
   `id` int(11) NOT NULL,
   `studentId` int(11) NOT NULL,
   `courseId` int(11) NOT NULL,
-  `courseName` varchar(120) NOT NULL,
-  `progress` int(11) NOT NULL,
+  `progress` int(11) NOT NULL DEFAULT 0,
   `joiningDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `certificate` varchar(255) NOT NULL DEFAULT 'No'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -64,9 +63,28 @@ CREATE TABLE `appliedcourses` (
 -- Dumping data for table `appliedcourses`
 --
 
-INSERT INTO `appliedcourses` (`id`, `studentId`, `courseId`, `courseName`, `progress`, `joiningDate`, `certificate`) VALUES
-(1, 1, 2, 'Artificial Intelligence', 100, '2020-09-22 14:50:43', 'No'),
-(2, 1, 3, 'Machine Learning', 60, '2020-09-23 06:52:28', 'No');
+INSERT INTO `appliedcourses` (`id`, `studentId`, `courseId`, `progress`, `joiningDate`, `certificate`) VALUES
+(1, 3, 1, 0, '2020-12-24 06:57:09', 'No'),
+(2, 3, 4, 0, '2020-12-24 06:57:09', 'No'),
+(7, 1, 10, 0, '2020-12-24 06:59:27', 'No'),
+(8, 1, 11, 0, '2020-12-24 06:59:27', 'No'),
+(9, 1, 14, 0, '2020-12-24 06:59:27', 'No'),
+(10, 1, 18, 0, '2020-12-24 06:59:27', 'No'),
+(15, 5, 1, 0, '2020-12-24 07:12:04', 'No'),
+(16, 5, 2, 0, '2020-12-24 07:12:04', 'No'),
+(17, 5, 4, 0, '2020-12-24 07:12:04', 'No'),
+(31, 2, 8, 0, '2020-12-24 07:24:05', 'No'),
+(33, 2, 10, 0, '2020-12-24 07:24:05', 'No'),
+(34, 2, 11, 0, '2020-12-24 07:24:05', 'No'),
+(36, 2, 13, 0, '2020-12-24 07:24:05', 'No'),
+(37, 2, 14, 0, '2020-12-24 07:24:05', 'No'),
+(38, 2, 15, 0, '2020-12-24 07:24:06', 'No'),
+(39, 2, 18, 0, '2020-12-24 07:24:06', 'No'),
+(40, 2, 19, 0, '2020-12-24 07:24:06', 'No'),
+(41, 2, 20, 0, '2020-12-24 07:24:06', 'No'),
+(42, 2, 21, 0, '2020-12-24 07:24:06', 'No'),
+(45, 3, 2, 0, '2020-12-24 07:26:57', 'No'),
+(46, 3, 6, 0, '2020-12-24 07:26:57', 'No');
 
 -- --------------------------------------------------------
 
@@ -86,10 +104,9 @@ CREATE TABLE `coursecontent` (
 --
 
 INSERT INTO `coursecontent` (`id`, `title`, `description`, `courseid`) VALUES
-(1, 'My Title', '<p>dladla</p>\n<p>dn;ak;da</p>\n<p>adnk</p>', 14),
-(2, 'Tauseef', '<p>Hello User</p>', 14),
-(3, 'Tauseef', '<p>hELLO KLNAKNFKA</p>', 14),
-(4, 'My Content 1', '<p>Hello User</p>\n<p>This is just for Test</p>', 5);
+(4, 'My Content 1', '<p>Hello User</p>\n<p>This is just for Test</p>', 5),
+(6, 'Basics of Java', '<ol>\n<li><span style=\"font-size: 18pt;\">Basic of OOPS</span></li>\n<li><span style=\"font-size: 18pt;\">Classes &amp; Objects</span></li>\n<li><span style=\"font-size: 18pt;\">Understanding Packages</span></li>\n<li><span style=\"font-size: 18pt;\">Coding Practice</span></li>\n</ol>', 5),
+(7, 'description', '<p>programming language</p>', 14);
 
 -- --------------------------------------------------------
 
@@ -110,12 +127,14 @@ CREATE TABLE `coursefiles` (
 --
 
 INSERT INTO `coursefiles` (`id`, `contentid`, `filename`, `size`, `uploaded_on`) VALUES
-(31, 3, 'Xylophone.apk', '6,07 MB', '2020-10-23 16:04:12'),
-(32, 3, 'Intro.mp4', '5,35 MB', '2020-10-23 16:07:22'),
-(34, 3, 'GoldIgnot.java', '866 B', '2020-10-23 16:10:42'),
 (35, 1, 'Palind.py', '850 B', '2020-10-23 16:12:47'),
 (36, 4, 'FillCube.py', '820 B', '2020-10-23 16:14:08'),
-(37, 4, 'GoldIgnot.py', '926 B', '2020-10-23 16:15:49');
+(37, 4, 'GoldIgnot.py', '926 B', '2020-10-23 16:15:49'),
+(48, 7, '2018-01-26-13-31-24-272.jpg', '294,8 KB', '2020-12-24 15:02:11'),
+(49, 7, 'GoldIgnot.java', '866 B', '2020-12-24 15:02:11'),
+(50, 7, '2018-06-17-16-17-30-701.jpg', '794,29 KB', '2020-12-24 15:02:11'),
+(51, 7, 'Palind.py', '850 B', '2020-12-24 15:02:12'),
+(52, 7, 'Intro.mp4', '5,35 MB', '2020-12-24 15:02:13');
 
 -- --------------------------------------------------------
 
@@ -174,11 +193,21 @@ CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
   `studentId` int(11) NOT NULL,
   `totalPayment` bigint(50) NOT NULL,
-  `remainingPayment` bigint(50) NOT NULL,
+  `paidPayment` bigint(50) NOT NULL,
   `mode` varchar(120) NOT NULL,
   `paymentDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `history` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`id`, `studentId`, `totalPayment`, `paidPayment`, `mode`, `paymentDate`, `history`) VALUES
+(1, 1, 25496, 4000, 'NA', '2020-12-24 06:50:02', 'NA'),
+(3, 2, 63190, 7000, 'NA', '2020-12-24 06:52:02', 'NA'),
+(4, 3, 28696, 2400, 'NA', '2020-12-24 06:52:33', 'NA'),
+(5, 5, 23997, 12000, 'NA', '2020-12-24 06:53:42', 'NA');
 
 -- --------------------------------------------------------
 
@@ -239,7 +268,6 @@ INSERT INTO `student` (`id`, `name`, `profilePic`, `email`, `mobile`, `qualifica
 (1, 'Tauseef Ansari', 'B612_20180127_090047.jpg1601901994.jpg', 'tauseeftanvir@gmail.com', 9321391048, 'Engineer', 'Mumbai, India', '2020-09-23', 'No', '543284b3413aa53934514fe0b2d6d436', 0),
 (2, 'Zakiya Khan', 'b1d41e8f8ef8d551358c7b61f76993501600433094.png1600957089.png', 'zakiyakhan9746@gmail.com', 9876543210, 'Engineer', 'Mumbai', '2020-09-24', 'No', '927273d442d08db04cd67ea714c7426b', 0),
 (3, 'Mohsin Essani', '94f512a17a11048b4d473f272918efbb1600774532.jpg1600957210.jpg', 'mohsinessani@gmail.com', 9967867833, 'Masters', 'Mumbai', '2020-09-24', 'No', 'eec00e82e35ac5a359a7e1f871a991b6', 0),
-(4, 'Hamza Chowdhury', 'ddc01577479ff46e6d42027edc5fba5c1600774634.jpg1600958372.jpg', 'hamzachowdhry@gmail.com', 9873213654, 'Masters', 'Mumbai', '2020-09-24', 'No', 'af89b8036a2a955681081807748ef8b8', 1),
 (5, 'Hamza Chowdhury', 'ddc01577479ff46e6d42027edc5fba5c1600774634.jpg1600958557.jpg', 'hamzachowdhry123@gmail.com', 1234567890, 'Masters', 'Mumbai', '2020-09-24', 'No', 'a60cea2beeb73f56fcd3cf8f2929db23', 0);
 
 --
@@ -308,19 +336,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `appliedcourses`
 --
 ALTER TABLE `appliedcourses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `coursecontent`
 --
 ALTER TABLE `coursecontent`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `coursefiles`
 --
 ALTER TABLE `coursefiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `courses`
@@ -332,7 +360,7 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `staff`
@@ -344,7 +372,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
