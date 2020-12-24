@@ -112,4 +112,6 @@
         $query=mysqli_query($con,"DELETE FROM coursefiles WHERE id = $key");
         unlink($filename); exit;
     }
+
+    
 ?>

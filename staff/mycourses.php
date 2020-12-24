@@ -589,7 +589,7 @@
     <div class="modal-content">
       <div class="modal-header text-center bg-danger text-white">
         <h4 class="modal-title w-100 font-weight-bold">Change Password</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -616,30 +616,6 @@
   </div>
 </div>
 
-
-<div class="modal fade wow animated rotateIn" id="myModal" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-         <div class="modal-content">
-
-      <form class="text-center p-5" method="post" action="../backend.php" enctype="multipart/form-data"> 
-          <h1 class="h3 text-primary mb-2"><b>Change Profile Picture</b></h1>
-        <!-- image -->
-        <div class="bgColor">
-          <div id="targetOuter">
-            <div id="targetLayer"></div>
-            <img src="" class="icon-choose-image" />
-            <div class="icon-choose-image">
-            <input name="propic" id="propic" type="file" class="inputFile" onChange="showPreview(this);">
-            </div>
-          </div>
-        </div>
-          <!-- Send button -->
-          <button class="btn btn-info btn-md ok" data-toggle="modal" data-target="#myModal" style="visibility: hidden;" name="upload_staff" type="submit">Upload</button>
-          <button class="btn btn-danger btn-md" data-dismiss="modal" aria-label="Close">Cancel</button>
-      </form>
-    </div>
-  </div>
-</div>
 
   <!-- Footer -->
   <!-- SCRIPTS -->

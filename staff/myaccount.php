@@ -335,7 +335,7 @@
     <div class="modal-content">
       <div class="modal-header text-center bg-danger text-white">
         <h4 class="modal-title w-100 font-weight-bold">Change Password</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -366,9 +366,11 @@
 <div class="modal fade wow animated rotateIn" id="myModal" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
          <div class="modal-content">
+          <div class="modal-header text-center bg-warning text-white">
+            <h4 class="modal-title w-100 font-weight-bold">Change Profile Picture</h4>
+          </div>
 
       <form class="text-center p-5" method="post" action="../backend.php" enctype="multipart/form-data"> 
-          <h1 class="h3 text-primary mb-2"><b>Change Profile Picture</b></h1>
         <!-- image -->
         <div class="bgColor">
           <div id="targetOuter">
@@ -380,8 +382,8 @@
           </div>
         </div>
           <!-- Send button -->
-          <button class="btn btn-info btn-md ok" data-toggle="modal" data-target="#myModal" style="visibility: hidden;" name="upload_staff" type="submit">Upload</button>
-          <button class="btn btn-danger btn-md" data-dismiss="modal" aria-label="Close">Cancel</button>
+          <button class="btn btn-info btn-md ok mt-3" data-toggle="modal" data-target="#myModal" style="visibility: hidden;" name="upload_staff" type="submit">Upload</button>
+          <button class="btn btn-danger btn-md mt-3" data-dismiss="modal" aria-label="Close">Cancel</button>
       </form>
     </div>
   </div>

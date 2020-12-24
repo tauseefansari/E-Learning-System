@@ -106,7 +106,7 @@
 	  ?>
 
   <!-- Main Container -->
-  <div class="container-fluid pt-1">
+  <div class="container pt-1">
 
     <!-- Main container -->
     <div class="container wow animated bounceInDown">
@@ -115,22 +115,20 @@
 
         <!-- Content -->
         <div class="col-lg-12">
+          <?php
+        $ongoing= mysqli_query($con, "SELECT * FROM appliedCourses WHERE progress < 100 AND studentId='$id'");
+              if(mysqli_num_rows($ongoing) > 0)
+              { 
+            ?>
 
-          <!-- Products Grid -->
-          <section class="section pt-4">
-          	<?php
-				$ongoing= mysqli_query($con, "SELECT * FROM appliedCourses WHERE progress < 100 AND studentId='$id'");
-          		if(mysqli_num_rows($ongoing) > 0)
-          		{	
-          	?>
-
-            <h4 class="font-weight-bold mt-4 title-1 wow animated slideInRight" data-wow-delay="0.3s">
+          <h4 class="font-weight-bold mt-4 title-1 wow animated slideInRight" data-wow-delay="0.3s">
 
               <strong>Ongoing Courses</strong>
 
             </h4>
 
             <hr class="red mb-5">
+            
             <!-- Grid row -->
             <?php
             	$start=0; 
@@ -216,8 +214,8 @@
                     </ul>
 
                       <div class="progress">
-                <div class="progress-bar bg-success" style="width : <?php echo $row['progress'];?>%;"></div>
-            </div>
+                        <div class="progress-bar bg-success" style="width : <?php echo $row['progress'];?>%;"></div>
+                    </div>
 
                     <!-- Card footer -->
                     <div class="card-footer pb-0">
@@ -244,7 +242,7 @@
               <!-- Grid column -->
               <?php 
               		$start++;
-              		if($start % 3 == 2)
+              		if($start % 3 == 0)
               		{
               			echo '</div>';
               		}
@@ -252,34 +250,41 @@
               	echo '</div>';
               }
               ?>
+        </div>
 
-          	<?php
-				$ongoing= mysqli_query($con, "SELECT * FROM appliedCourses WHERE progress = 100 AND studentId='$id'");
-          		if(mysqli_num_rows($ongoing) > 0)
-          		{	
-          	?>
+      <div class="row pt-1">
 
-            <h4 class="font-weight-bold mt-4 title-1 wow animated slideInLeft" data-wow-delay="0.3s">
+        <!-- Content -->
+        <div class="col-lg-12">
+
+          <?php
+              $ongoing= mysqli_query($con, "SELECT * FROM appliedCourses WHERE progress = 100 AND studentId='$id'");
+              if(mysqli_num_rows($ongoing) > 0)
+              { 
+            ?>
+
+          <h4 class="font-weight-bold mt-4 title-1 wow animated slideInRight" data-wow-delay="0.3s">
 
               <strong>Completed Courses</strong>
 
             </h4>
 
             <hr class="blue mb-5">
+            
             <!-- Grid row -->
             <?php
-            	$start=0; 
-            	$query = mysqli_query($con, "SELECT * FROM appliedCourses JOIN courses ON appliedCourses.courseId = courses.id WHERE appliedCourses.studentId = '$id' AND appliedCourses.progress = 100");
-            	while($row = mysqli_fetch_array($query))
-          		{
-          			if($start % 3 == 0)
-          			{
-          				echo '<div class="row">';
-          			}
+              $start=0; 
+              $query = mysqli_query($con, "SELECT * FROM appliedCourses JOIN courses ON appliedCourses.courseId = courses.id WHERE appliedCourses.studentId = '$id'  AND appliedCourses.progress >= 100");
+              while($row = mysqli_fetch_array($query))
+              {
+                if($start % 3 == 0)
+                {
+                  echo '<div class="row wow animated slideInLeft" data-wow-delay="0.3s">';
+                }
             ?>
 
               <!-- Grid column -->
-              <div class="col-lg-4 col-md-12 mb-4 wow animated slideInRight" data-wow-delay="0.3s">
+              <div class="col-lg-4 col-md-12 mb-4 wow animated rotateIn" data-wow-delay="0.2s">
 
                 <!-- Card -->
                 <div class="card card-ecommerce">
@@ -374,35 +379,36 @@
               </div>
               <!-- Grid column -->
               <?php 
-              		$start++;
-              		if($start % 3 == 2)
-              		{
-              			echo '</div>';
-              		}
-              	}
-              	echo '</div>';
+                  $start++;
+                  if($start % 3 == 0)
+                  {
+                    echo '</div>';
+                  }
+                }
+                echo '</div>';
               }
               ?>
+    </div>
 
-            <h4 class="font-weight-bold mt-4 title-1 wow animated flipInY" data-wow-delay="0.5s">
+          <div class="col-lg-12">
+          <h4 class="font-weight-bold mt-4 title-1 wow animated slideInRight" data-wow-delay="0.3s">
 
               <strong>Recommended Courses</strong>
 
             </h4>
 
             <hr class="blue mb-5">
-
-            <!-- Grid row -->
-            <div class="row">
+            
+            
+            <div class="row mt-5">
             <?php
-	            $query3 = mysqli_query($con, "SELECT * FROM courses ORDER BY id DESC LIMIT 3");
+              $query3 = mysqli_query($con, "SELECT * FROM courses ORDER BY id DESC LIMIT 3");
 
-	            while($row = mysqli_fetch_array($query3))
-	            {
-	        ?>
-
+              while($row = mysqli_fetch_array($query3))
+              {
+          ?>
               <!-- Grid column -->
-              <div class="col-lg-4 col-md-12 mb-4 wow animated rotateIn" data-wow-delay="0.5s">
+              <div class="col-lg-4 col-md-12 mb-4 wow animated rotateIn" data-wow-delay="0.2s">
 
                 <!-- Card -->
                 <div class="card card-ecommerce">
@@ -410,7 +416,7 @@
                   <!-- Card image -->
                   <div class="view overlay">
 
-                    <img src="../assets/img/courses/<?php echo $row['profilePic']; ?>" class="img-fluid" 
+                    <img src="../assets/img/courses/<?php echo $row['profilePic'];?>" class="img-fluid" 
                       alt="">
 
                     <a href="../courseinfo.php?course=<?php echo $row['id']; ?>">
@@ -430,13 +436,13 @@
 
                       <strong>
 
-                        <a href="../courseinfo.php?course=<?php echo $row['id']; ?>" class="dark-grey-text">Artificial Intelligence</a>
+                        <a href="../courseinfo.php?course=<?php echo $row['id']; ?>" class="dark-grey-text"><?php echo $row['name'];?></a>
 
                       </strong>
 
                     </h5>
 
-                    <?php echo $row['badge']; ?>
+                    <?php echo $row['badge'];?></a>
 
                     <!-- Rating -->
                     <ul class="rating">
@@ -480,17 +486,7 @@
 
                         <span class="float-left">
 
-                          <strong>₹ <?php echo $row['price']; ?></strong>
-
-                        </span>
-
-                        <span class="float-right">
-
-                          <a class="" data-toggle="tooltip" data-placement="top" title="Requst to Purchase">
-
-                            <i class="fas fa-edit ml-3"></i>
-
-                          </a>
+                          <strong>₹ <?php echo $row['price'];?></a></strong>
 
                         </span>
 
@@ -502,23 +498,19 @@
 
                   <!-- Card content -->
                 </div>
-
                 <!-- Card -->
               </div>
               <!-- Grid column -->
-            <?php
-            	} 
-            ?>
-
+              <?php 
+                }
+              ?>
             </div>
-            <!-- Grid row -->
-
+          </div>
         </div>
-
-      </div>
-  </section>
+        </div>
+    </div>
   </div>
-  </div>
+</body>
     
 
   <?php include_once('includes/footer.php'); ?>

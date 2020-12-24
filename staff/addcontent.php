@@ -243,8 +243,8 @@
     		          <div class="card-header">
     		            <h5 class="mb-0">
     		              <strong>Description</strong>
-                      <a href="#"><i class="fas fa-trash pull-right ml-2" style="color: red;"></i></a>
-    		              <a href="#"><i class="fas fa-edit pull-right ml-2 text-primary"></i></a>
+                      <input type="hidden" name="id" value="<?php echo $row['id'];?>" class="delete_id_value">
+                      <a href="javascript:void(0)" class="delete_btn_ajax"> <i class="fas fa-trash pull-right ml-2" style="color: red;"></i> </a>
     		            </h5>
     		          </div>
 
@@ -284,7 +284,7 @@
 				                	$query2 = mysqli_query($con, "SELECT * FROM coursefiles WHERE contentid = '$contentid' LIMIT 3");
 				                	if(mysqli_num_rows($query2) == 0)
 				                	{
-				                		echo '<h4 class="font-weight-bold dark-grey-text text-center"> No Files found!</h4>';
+				                		echo '<h4 class="font-weight-bold dark-grey-text text-center"> No Files found! <h6 class="text-center"> <a href="fileupload.php?contentid='.$row["id"].'" class="text-primary">Add Files </a></h6></h4>';
 				                	}
 				                	else
 				                	{
@@ -410,7 +410,7 @@
     <div class="modal-content">
       <div class="modal-header text-center bg-danger text-white">
         <h4 class="modal-title w-100 font-weight-bold">Change Password</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -501,27 +501,39 @@ tinymce.init({
  });
 
   
-  /*$(".sub").click(function(){
-        var str = tinymce.get('editor').getContent();
-        alert("Hello "+str);
-    });*/
-
-    // $(document).ready(function(){
-    //         $("#myAwesomeDropzone").hide();
-    //         $("#cid").hide();
-    //         $("#form1").keyup(function(e){
-    //         if($("#form1").val() != "" && e.keyCode != 32)
-    //         {
-    //         	$("#cid").show();
-    //             $("#myAwesomeDropzone").show();
-    //         }
-    //         else
-    //         {
-    //         	$("#cid").hide();
-    //             $("#myAwesomeDropzone").hide();
-    //         }
-    //     });
-    //     });
+  jQuery(document).ready(function($){
+      $('.delete_btn_ajax').click(function(e){
+        e.preventDefault();
+        var deleteid = $(this).closest("h5").find('.delete_id_value').val();
+        swal({
+              title: "Are you sure?",
+              text: "Are you sure you want to remove this content!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                $.ajax({
+                    type: "POST",
+                    url: "../backend.php",
+                    data: {
+                        "content_delete_btn_set" : 1,
+                        "delete_id" : deleteid,
+                    },
+                    success: function(response)
+                    {
+                        swal("Content Removed Successfully!",{
+                           icon: "success",
+                        }).then((result) => {
+                          location.reload();
+                        });
+                    }
+                });
+              }
+            });
+          });
+    });
 
     $("#add").click(function(){
 	  var title = $("#form1").val();

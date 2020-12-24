@@ -12,11 +12,9 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="ion-ios-arrow-right animate__animated animate__fadeInUp"></i> <a href="">Home</a></li>
-              <li><i class="ion-ios-arrow-right"></i> <a href="#about">About us</a></li>
-              <li><i class="ion-ios-arrow-right"></i> <a href="#">Courses</a></li>
-              <li><i class="ion-ios-arrow-right"></i> <a href="#team">Teams</a></li>
-              <li><i class="ion-ios-arrow-right"></i> <a href="#contact">Contact Us</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="index.php">My Courses</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="myaccount.php">My Account</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a data-toggle="modal" data-target="#modalLoginForm">Change Password</a></li>
             </ul>
           </div>
 

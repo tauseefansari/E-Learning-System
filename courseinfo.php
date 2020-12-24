@@ -71,6 +71,62 @@
       height: 469px;
       object-fit: cover;
     }
+
+    .fa-play:before {
+        margin-left: .3rem;
+      }
+
+      /* Steps */
+      .step {
+        list-style: none;
+        margin: 0;
+      }
+
+      .step-element {
+        display: flex;
+        padding: 1rem 0;
+      }
+
+      .step-number {
+        position: relative;
+        width: 7rem;
+        flex-shrink: 0;
+        text-align: center;
+      }
+
+      .step-number .number {
+        color: #fff;
+        background-color: #000;
+        font-size: 1.5rem;
+      }
+
+      .step-number .number {
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+      }
+
+      .number {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 38px;
+        border-radius: 10rem;
+      }
+
+      .step-number::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 48px;
+        bottom: -2rem;
+        margin-left: -1px;
+        border-left: 2px dashed #000;
+      }
+
+      .step .step-element:last-child .step-number::before {
+        bottom: 1rem;
+      }
   </style>
 
 </head>
@@ -151,131 +207,56 @@
         <h2 class="h4-responsive mt-lg-12 mb-2 pb-4  dark-grey-text font-weight-bold text-center wow animated shake" data-wow-delay="0.3s"><strong>Course Content</strong></h2>
 
         <div class="row">
+          <div class="col-lg-12">
+          <?php
 
-          <!-- Grid column -->
-          <div class="col-md-12">
+                  $target_dir = "../assets/img/coursefiles/".$result['name']."/"; 
+                  $count = 1;
+                  $query = mysqli_query($con, "SELECT * FROM coursecontent WHERE courseid = '$courseid'");
+                  if(mysqli_num_rows($query) == 0)
+                  {
+                    echo '<h3 class="font-weight-bold dark-grey-text text-center"> No Contents found!</h3>';
+                  }
+                  while ($row = mysqli_fetch_array($query))
+                  {
+                    $contentid = $row['id'];
+                ?>
+                <div class="col-lg-12 mb-4">
+                  <ol class="step pl-0">
+                  <li class="step-element pb-0 wow animated slideInDown" data-wow-delay="0.2s">
+                    <div class="step-number">
+                      <span class="number font-weight-bold"><?php echo $count; ?></span>
+                    </div>
+                    <div class="step-excerpt col-lg-10">
+                      <h4 class="font-weight-bold dark-grey-text mb-3 text-primary"><?php echo $row['title']; ?></h4>
+                      <!-- Accordion card -->
+                  <div class="card">
 
-            <!-- Accordion wrapper -->
-            <div class="accordion md-accordion" id="accordionEx1" role="tablist" aria-multiselectable="true">
-
-              <!-- Accordion card -->
-              <div class="card">
-
-                <!-- Card header -->
-                <div class="card-header blue lighten-2" role="tab" id="headingTwo1">
-                  <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#collapseTwo1"
-                    aria-expanded="false" aria-controls="collapseTwo1">
+                  <!-- Card header -->
+                  <div class="card-header">
                     <h5 class="mb-0 text-white">
-                      Content 1 <i class="fas fa-angle-down rotate-icon"></i>
+                      <strong>Description</strong>
                     </h5>
-                  </a>
-                </div>
+                  </div>
 
                 <!-- Card body -->
-                <div id="collapseTwo1" class="collapse blue lighten-2" role="tabpanel" aria-labelledby="headingTwo1"
-                  data-parent="#accordionEx1">
-                  <div class="card-body text-white">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
-                    wolf
-                    moon
-                    officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                    Brunch
-                    3
-                    wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                    shoreditch
-                    et.
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                    Ad
-                    vegan
-                    excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                    nesciunt
-                    you probably haven't heard of them accusamus labore sustainable VHS.
+                <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+                  data-parent="#accordionEx">
+                  <div class="card-body">
+                  <?php echo $row['description']; ?>
                   </div>
                 </div>
-
               </div>
-              <!-- Accordion card -->
-
-              <!-- Accordion card -->
-              <div class="card">
-
-                <!-- Card header -->
-                <div class="card-header blue lighten-2" role="tab" id="headingTwo2">
-                  <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#collapseTwo21"
-                    aria-expanded="false" aria-controls="collapseTwo21">
-                    <h5 class="mb-0 text-white">
-                      Content 2 <i class="fas fa-angle-down rotate-icon"></i>
-                    </h5>
-                  </a>
-                </div>
-
-                <!-- Card body -->
-                <div id="collapseTwo21" class="collapse blue lighten-2" role="tabpanel" aria-labelledby="headingTwo21"
-                  data-parent="#accordionEx1">
-                  <div class="card-body text-white">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
-                    wolf
-                    moon
-                    officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                    Brunch
-                    3
-                    wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                    shoreditch
-                    et.
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                    Ad
-                    vegan
-                    excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                    nesciunt
-                    you probably haven't heard of them accusamus labore sustainable VHS.
-                  </div>
-                </div>
-
               </div>
-              <!-- Accordion card -->
-
-              <!-- Accordion card -->
-              <div class="card">
-
-                <!-- Card header -->
-                <div class="card-header blue lighten-2" role="tab" id="headingThree31">
-                  <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#collapseThree31"
-                    aria-expanded="false" aria-controls="collapseThree31">
-                    <h5 class="mb-0 text-white">
-                      Content 3 <i class="fas fa-angle-down rotate-icon"></i>
-                    </h5>
-                  </a>
-                </div>
-
-                <!-- Card body -->
-                <div id="collapseThree31" class="collapse blue lighten-2" role="tabpanel" aria-labelledby="headingThree31"
-                  data-parent="#accordionEx1">
-                  <div class="card-body text-white">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
-                    wolf
-                    moon
-                    officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                    Brunch
-                    3
-                    wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                    shoreditch
-                    et.
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                    Ad
-                    vegan
-                    excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-                    nesciunt
-                    you probably haven't heard of them accusamus labore sustainable VHS.
-                  </div>
-                </div>
-
-              </div>
-              <!-- Accordion card -->
-
-            </div>
-            <!-- Accordion wrapper -->
-
+            </li>
+          </ol>
           </div>
+          <?php
+            $count++; 
+            }
+          ?>
+          </div>
+        </div>
           <!-- Grid column -->
       </section>
       <!-- Section: Close by default -->

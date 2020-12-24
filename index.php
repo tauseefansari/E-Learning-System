@@ -163,7 +163,7 @@
   <!-- ======= Intro Section ======= -->
   <section id="intro">
     <div class="intro-container">
-      <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">
+      <div id="introCarousel" class="carousel slide carousel-fade" data-ride="carousel">
 
         <ol class="carousel-indicators"></ol>
 
@@ -172,7 +172,7 @@
           <div class="carousel-item active" style="background-image: url(assets/img/intro-carousel/1.jpg)">
             <div class="carousel-container">
               <div class="container">
-                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.5s;margin: 10px;color: #fff;background: #18d26e;">Education for Everyone</h2>
+                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.3s;margin: 10px;color: #fff;background: #18d26e;">Education for Everyone</h2>
                 <p class="animate__animated animate__fadeInUp">We provides always our best education for our students and  always<br> try to achieve our student's trust and satisfaction</p>
                 <a href="#featured-services" class="btn-get-started scrollto animate__animated animate__fadeInUp">Get Started</a>
               </div>
@@ -182,7 +182,7 @@
           <div class="carousel-item" style="background-image: url(assets/img/intro-carousel/2.jpg)">
             <div class="carousel-container">
               <div class="container">
-                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.5s;margin: 10px;color: #fff;background: #18d26e;">Passion for learning new things</h2>
+                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.3s;margin: 10px;color: #fff;background: #18d26e;">Passion for learning new things</h2>
                 <p class="animate__animated animate__fadeInUp">Was certainty remaining engrossed applauded sir how discovery. Settled opinion how enjoyed greater joy adapted too shy. Now properly surprise expenses</p>
                 <a href="#featured-services" class="btn-get-started scrollto animate__animated animate__fadeInUp">Get Started</a>
               </div>
@@ -192,7 +192,7 @@
           <div class="carousel-item" style="background-image: url(assets/img/intro-carousel/3.jpg)">
             <div class="carousel-container">
               <div class="container">
-                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.5s;margin: 10px;color: #fff;background: #18d26e;">Enhance your experince</h2>
+                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.3s;margin: 10px;color: #fff;background: #18d26e;">Enhance your experince</h2>
                 <p class="animate__animated animate__fadeInUp">Experience is all everyone want. we provide a platform to gain experience with our courses</p>
                 <a href="#featured-services" class="btn-get-started scrollto animate__animated animate__fadeInUp">Get Started</a>
               </div>
@@ -202,7 +202,7 @@
           <div class="carousel-item" style="background-image: url(assets/img/intro-carousel/4.jpg)">
             <div class="carousel-container">
               <div class="container">
-                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.5s;margin: 10px;color: #fff;background: #18d26e;">Learn with comfort</h2>
+                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.3s;margin: 10px;color: #fff;background: #18d26e;">Learn with comfort</h2>
                 <p class="animate__animated animate__fadeInUp">Larn with your convenience time and place. Utilize the benefits of our courses</p> 
                 <a href="#featured-services" class="btn-get-started scrollto animate__animated animate__fadeInUp">Get Started</a>
               </div>
@@ -212,7 +212,7 @@
           <div class="carousel-item" style="background-image: url(assets/img/intro-carousel/5.jpg)">
             <div class="carousel-container">
               <div class="container">
-                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.5s;margin: 10px;color: #fff;background: #18d26e;">Oppurtunity for getting placed</h2>
+                <h2 class="animate__animated animate__fadeInDown" style="display: inline-block;padding: 8px 32px;border-radius: 50px;transition: 0.3s;margin: 10px;color: #fff;background: #18d26e;">Oppurtunity for getting placed</h2>
                 <p class="animate__animated animate__fadeInUp">Learn with experts and be ready for your placement perspective in an Multinational Companies</p>
                 <a href="#featured-services" class="btn-get-started scrollto animate__animated animate__fadeInUp">Get Started</a>
               </div>
@@ -427,18 +427,18 @@
         <div class="row counters">
 
           <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">500</span>
-            <p>Clients</p>
+            <span data-toggle="counter-up">100</span>
+            <p>Staff</p>
+          </div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-toggle="counter-up">200</span>
+            <p>Courses</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
             <span data-toggle="counter-up">100</span>
-            <p>Projects</p>
-          </div>
-
-          <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">1,500</span>
-            <p>Hours Of Support</p>
+            <p>Success Stories</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
@@ -665,7 +665,7 @@
             <div class="contact-phone">
               <i class="ion-ios-telephone-outline"></i>
               <h3>Phone Number</h3>
-              <p><a href="tel:+155895548855">+91 9321 3910 48</a></p>
+              <p><a href="tel:+919321391048">+91 9321 3910 48</a></p>
             </div>
           </div>
 
@@ -943,11 +943,23 @@
                 },
                 success: function(dataResult)
                 {
-                  swal("Link to reset password sent to your email!",{
+                  var res = JSON.parse(dataResult);
+                  if(res.status == 1)
+                  {
+                    swal("Link to reset password sent to "+email,{
                      icon: "success",
                     }).then((result) => {
                     location.reload();
                   });
+                  }
+                  else
+                  {
+                    swal("Your email "+email+" is not registered!",{
+                     icon: "error",
+                    }).then((result) => {
+                    location.reload();
+                  });
+                  }
                 }
             });
           });
@@ -978,11 +990,23 @@
                 },
                 success: function(dataResult)
                 {
-                  swal("Link to reset password sent to your email!",{
+                  var res = JSON.parse(dataResult);
+                  if(res.status == 1)
+                  {
+                    swal("Link to reset password sent to "+email,{
                      icon: "success",
                     }).then((result) => {
                     location.reload();
                   });
+                  }
+                  else
+                  {
+                    swal("Your email "+email+" is not registered!",{
+                     icon: "error",
+                    }).then((result) => {
+                    location.reload();
+                  });
+                  }
                 }
             });
           });

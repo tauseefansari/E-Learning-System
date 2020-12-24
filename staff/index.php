@@ -68,10 +68,11 @@
     }
 
     .chips{
-      padding: 6px;
+      padding: 11px;
       border-radius: 21px;
       display: inline-block;
-      margin-top: 3px;
+      /* margin-top: 3px; */
+      height: 35px;
       margin-left: 2px;
     }
 
@@ -150,7 +151,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bcolor mt-5 mb-2">
 
       <!-- Navbar brand -->
-      <a class="font-weight-bold white-text mr-4" href="#">Registered Students</a>
+      <a class="h4 font-weight-bold white-text mr-4" href="#">Registered Students</a>
 
       <!-- Collapsible content -->
       <div class="navbar-nav ml-auto" id="navbarSupportedContent1">
@@ -173,22 +174,22 @@
     <!-- Inside Main Container -->
   <div class="container table-responsive wow animated bounceInDown">
 
-    <table id="dt-cell-sellection" class="table" cellspacing="0" width="100%">
+    <table id="dt-cell-sellection" class="table table-hover" cellspacing="0" width="100%">
       <thead>
         <tr>
-          <th class="th-sm">Student Name
+          <th class="th-sm text-center">Student Name
           </th>
-          <th class="th-sm">Profile Pic
+          <th class="th-sm text-center">Profile Pic
           </th>
-          <th class="th-sm">Email
+          <th class="th-sm text-center">Email
           </th>
-          <th class="th-sm">Registered Courses
+          <th class="th-sm text-center">Joining Date
           </th>
-          <th class="th-sm">Mobile
+          <th class="th-sm text-center">Mobile
           </th>
-          <th class="th-sm">Qualification
+          <th class="th-sm text-center">Qualification
           </th>
-          <th class="th-sm">Actions
+          <th class="th-sm text-center">Actions
           </th>
         </tr>
       </thead>
@@ -196,25 +197,12 @@
         <?php 
           while ($row = mysqli_fetch_array($query))
           {
-            $id=$row['id'];
-            $query2= mysqli_query($con, "SELECT * FROM appliedCourses WHERE studentId ='$id'");
         ?>
             <tr>
               <td class="align-middle"> <strong> <?php echo $row['name']; ?> </strong> </td>
               <td class="align-middle"><img src="../assets/img/profile/<?php echo $row['profilePic']; ?>" style="width: 100px;height: 100px;border-radius: 50px;"></td>
               <td class="align-middle"><?php echo $row['email']; ?></td>
-              <td class="align-middle" style="display: inline-block;">
-                <?php 
-                  while($row2=mysqli_fetch_array($query2))
-                  {
-                ?>
-                  <div class="chips bg-primary text-white text-center">
-                    <?php echo $row2['courseName']; ?>
-                  </div>
-                <?php
-                  }
-                ?>
-              </td>
+              <td class="align-middle"><?php echo $row['joiningDate']; ?></td>
               <td class="align-middle"><?php echo $row['mobile']; ?></td>
               <td class="align-middle"><?php echo $row['qualification']; ?></td>
               <td class="align-middle">
@@ -236,9 +224,11 @@
     <div class="modal fade wow animated rotateIn" id="myModal" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
          <div class="modal-content">
+        	<div class="modal-header text-center bg-primary text-white">
+        		<h4 class="modal-title w-100 font-weight-bold">Student Registration</h4>
+      		</div>
 
       <form class="text-center p-5" method="post" action="../backend.php" enctype="multipart/form-data"> 
-          <h1 class="h3 text-primary mb-2"><b>Student Registration</b></h1>
         <!-- image -->
         <div class="bgColor">
           <div id="targetOuter">
@@ -292,7 +282,7 @@
     <div class="modal-content">
       <div class="modal-header text-center bg-danger text-white">
         <h4 class="modal-title w-100 font-weight-bold">Change Password</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

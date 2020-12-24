@@ -14,17 +14,17 @@
             <strong> Manage </strong>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
+        <li class="nav-item <?php if(basename($_SERVER['PHP_SELF'])=="enroll.php") echo "active";?>">
+          <a class="nav-link" href="enroll.php">
             <strong> Enrollment </strong>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">
+        <li class="nav-item <?php if(basename($_SERVER['PHP_SELF'])=="payment.php") echo "active";?>">
+          <a class="nav-link" href="payment.php">
             <strong> Payment </strong>
         </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item ">
           <a class="nav-link" href="#">
             <strong> Placement </strong>
         </a>

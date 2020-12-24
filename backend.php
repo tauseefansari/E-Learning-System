@@ -109,6 +109,8 @@
             $password = randomPassword();
             $encPassword = md5($password);
             $query = mysqli_query($con, "INSERT INTO student (name,profilePic,email,mobile,qualification,address,password) VALUES ('$name','$propic','$email','$mobile','$quali','$address','$encPassword')");
+            $id = mysqli_insert_id($con);
+            $payment= mysqli_query($con, "INSERT INTO payment (`studentId`, `totalPayment`, `paidPayment`, `mode`, `history`) VALUES ('$id', '0', '0', 'NA', 'NA')");
             if($query)
             {
               $_SESSION['addstudents'] = "Password has been sent to your email!";
@@ -338,12 +340,13 @@
   if(isset($_POST['staff_set']))
   {
       $email = $_POST['email'];
-      $query = mysqli_query($con,"SELECT * FROM staff WHERE email = '$email'");
-      $res = mysqli_fetch_array($query);
-      $userid = $res['id'];
-      $link='http://localhost/elearning/resetpassword.php?user='.$userid.'&type=staff';      
-      if($query)
+      $query = mysqli_query($con,"SELECT * FROM staff WHERE email = '$email'");      
+      if(mysqli_num_rows($query) == 1)
       {
+        $res = mysqli_fetch_array($query);
+        $userid = $res['id'];
+        $link='http://localhost/elearning/resetpassword.php?user='.$userid.'&type=staff';
+
         $mail = new PHPMailer;
         $mail->IsSMTP();        //Sets Mailer to send message using SMTP
         $mail->Host = 'smtp.gmail.com';  //Sets the SMTP hosts of your Email hosting, this for Godaddy
@@ -359,10 +362,11 @@
         $message = '<b> Your password forgot request is receiver <br><br> Your Email is '.$email.' Click on the below link to forget/reset your password <br><br> <a href="'.$link.'">www.expertiselearning.com/staff/password/forgot/userid/'.md5($email).'</a>  <br><br> Thanks from Expertise Learning';
         $mail->Body = $message;       //An HTML or plain text message body
         $mail->Send();
+        echo json_encode(array("status"=>1));
       }
       else
       {
-        echo "Error";      
+        echo json_encode(array("status"=>0));     
       }
   }
 
@@ -370,11 +374,12 @@
   {
       $email = $_POST['email'];
       $query = mysqli_query($con,"SELECT * FROM student WHERE email = '$email'");
-      $res = mysqli_fetch_array($query);
-      $userid = $res['id'];
-      $link='http://localhost/elearning/resetpassword.php?user='.$userid.'&type=student';      
-      if(mysqli_num_rows($query) > 0)
+      if(mysqli_num_rows($query) == 1)
       {
+        $res = mysqli_fetch_array($query);
+        $userid = $res['id'];
+        $link='http://localhost/elearning/resetpassword.php?user='.$userid.'&type=student';      
+
         $mail = new PHPMailer;
         $mail->IsSMTP();        //Sets Mailer to send message using SMTP
         $mail->Host = 'smtp.gmail.com';  //Sets the SMTP hosts of your Email hosting, this for Godaddy
@@ -390,10 +395,11 @@
         $message = '<b> Your password forgot request is receiver <br><br> Your Email is '.$email.' Click on the below link to forget/reset your password <br><br> <a href="'.$link.'">www.expertiselearning.com/student/password/forgot/userid/'.md5($email).'</a>  <br><br> Thanks from Expertise Learning';
         $mail->Body = $message;       //An HTML or plain text message body
         $mail->Send();
+        echo json_encode(array("status"=>1));
       }
       else
       {
-        echo "Error";
+        echo json_encode(array("status"=>0));
       }
   }
 
@@ -412,5 +418,79 @@
       $query = mysqli_query($con, "UPDATE staff SET password = '$password' WHERE id = '$id'");
       $_SESSION['password_change'] = "Password Changed Successfully!";
     }
+  }
+
+
+  //Student Enroll to course
+  if(isset($_POST['enroll_set']))
+  {
+
+    $amount = 0;
+    $student = explode(',', $_POST['students']);
+    $course = explode(',', $_POST['courses']);
+    for($i=0; $i<count($student); $i++)
+    {
+      for($j=0; $j<count($course); $j++)
+      {
+        $check = mysqli_query($con, "SELECT * FROM appliedcourses WHERE studentId= '$student[$i]' AND courseId= '$course[$j]'");
+        if(mysqli_num_rows($check)==0)
+        {
+          $price = mysqli_query($con, "SELECT price FROM courses WHERE id='$course[$j]'");
+          $amount += mysqli_fetch_array($price)['price'];
+          $query = mysqli_query($con, "INSERT INTO appliedcourses (`studentId`, `courseId`) VALUES ('$student[$i]', '$course[$j]')");
+        }
+        else
+        {
+          $_SESSION['already_present'] = "Some Course(s) already present";
+        }
+      }
+      $query_price = mysqli_query($con, "UPDATE payment SET totalPayment = totalPayment+'$amount' WHERE studentId = '$student[$i]'");
+    }
+  }
+
+  if(isset($_POST['course_delete_btn_set']))
+  {
+    $id = $_POST['delete_id'];
+    $studentId = $_POST['studentid'];
+    $price = $_POST['price'];
+    $payment = mysqli_query($con, "UPDATE payment SET totalPayment=(totalPayment - '$price') WHERE studentId = '$studentId'");
+    $query = mysqli_query($con, "DELETE FROM appliedcourses WHERE id = '$id'");
+  }
+  
+  if(isset($_POST['pay_details']))
+  {
+    $id = $_POST['val'];
+    $query = mysqli_query($con, "SELECT * FROM payment WHERE studentId = '$id'");
+    $row = mysqli_fetch_array($query);
+    echo $row['totalPayment'] - $row['paidPayment'];
+  }
+
+  if(isset($_POST['pay_set']))
+  {
+    $id = $_POST['id'];
+    $pay = $_POST['pay'];
+    $query = mysqli_query($con, "UPDATE payment SET paidPayment=paidPayment + '$pay' WHERE studentId = '$id'");
+  }
+
+  if(isset($_SESSION['courseid']))
+  {
+    $courseid = $_SESSION['courseid'];
+    $query = mysqli_query($con, "SELECT * FROM courses WHERE id = '$courseid'");
+    $row = mysqli_fetch_array($query);
+    $coursename = $row['name']; 
+  } 
+
+  if(isset($_POST['content_delete_btn_set']))
+  {
+      $target_dir = "assets/img/coursefiles/".$coursename."/";
+      $contentid = $_POST['delete_id'];
+      $check = mysqli_query($con, "SELECT filename FROM coursefiles WHERE contentid = '$contentid'");
+      while($result = mysqli_fetch_array($check))
+      {
+        $res = $target_dir.$result['filename'];
+        unlink($res);
+      }
+      $query=mysqli_query($con,"DELETE FROM coursefiles WHERE contentid = $contentid");  
+      $delcontent = mysqli_query($con, "DELETE FROM coursecontent WHERE id=$contentid");
   }
 ?>
