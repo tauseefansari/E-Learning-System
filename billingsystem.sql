@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2020 at 02:16 PM
+-- Generation Time: Dec 28, 2020 at 04:10 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -84,7 +84,9 @@ INSERT INTO `appliedcourses` (`id`, `studentId`, `courseId`, `progress`, `joinin
 (41, 2, 20, 0, '2020-12-24 07:24:06', 'No'),
 (42, 2, 21, 0, '2020-12-24 07:24:06', 'No'),
 (45, 3, 2, 0, '2020-12-24 07:26:57', 'No'),
-(46, 3, 6, 0, '2020-12-24 07:26:57', 'No');
+(46, 3, 6, 0, '2020-12-24 07:26:57', 'No'),
+(47, 0, 0, 0, '2020-12-25 11:48:38', 'No'),
+(48, 1, 5, 0, '2020-12-28 06:07:41', 'No');
 
 -- --------------------------------------------------------
 
@@ -106,7 +108,7 @@ CREATE TABLE `coursecontent` (
 INSERT INTO `coursecontent` (`id`, `title`, `description`, `courseid`) VALUES
 (4, 'My Content 1', '<p>Hello User</p>\n<p>This is just for Test</p>', 5),
 (6, 'Basics of Java', '<ol>\n<li><span style=\"font-size: 18pt;\">Basic of OOPS</span></li>\n<li><span style=\"font-size: 18pt;\">Classes &amp; Objects</span></li>\n<li><span style=\"font-size: 18pt;\">Understanding Packages</span></li>\n<li><span style=\"font-size: 18pt;\">Coding Practice</span></li>\n</ol>', 5),
-(7, 'description', '<p>programming language</p>', 14);
+(7, 'Description', '<p>programming language</p>', 14);
 
 -- --------------------------------------------------------
 
@@ -186,6 +188,30 @@ INSERT INTO `courses` (`id`, `name`, `domain`, `creationDate`, `profilePic`, `ob
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `filestatus`
+--
+
+CREATE TABLE `filestatus` (
+  `id` int(11) NOT NULL,
+  `studentId` int(11) NOT NULL,
+  `fileId` int(11) NOT NULL,
+  `complete` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `filestatus`
+--
+
+INSERT INTO `filestatus` (`id`, `studentId`, `fileId`, `complete`) VALUES
+(5, 1, 49, 0),
+(7, 1, 48, 0),
+(9, 1, 51, 0),
+(10, 1, 52, 0),
+(11, 1, 49, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `payment`
 --
 
@@ -204,10 +230,32 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`id`, `studentId`, `totalPayment`, `paidPayment`, `mode`, `paymentDate`, `history`) VALUES
-(1, 1, 25496, 4000, 'NA', '2020-12-24 06:50:02', 'NA'),
+(1, 1, 29495, 4000, 'NA', '2020-12-24 06:50:02', 'NA'),
 (3, 2, 63190, 7000, 'NA', '2020-12-24 06:52:02', 'NA'),
 (4, 3, 28696, 2400, 'NA', '2020-12-24 06:52:33', 'NA'),
 (5, 5, 23997, 12000, 'NA', '2020-12-24 06:53:42', 'NA');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `placement`
+--
+
+CREATE TABLE `placement` (
+  `id` int(11) NOT NULL,
+  `studentId` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `placement`
+--
+
+INSERT INTO `placement` (`id`, `studentId`, `name`) VALUES
+(10, 3, 'Amazon'),
+(11, 5, 'Accenture'),
+(12, 2, 'Google'),
+(13, 0, 'Morgan Stanley');
 
 -- --------------------------------------------------------
 
@@ -266,9 +314,9 @@ CREATE TABLE `student` (
 
 INSERT INTO `student` (`id`, `name`, `profilePic`, `email`, `mobile`, `qualification`, `address`, `joiningDate`, `placement`, `password`, `disable`) VALUES
 (1, 'Tauseef Ansari', 'B612_20180127_090047.jpg1601901994.jpg', 'tauseeftanvir@gmail.com', 9321391048, 'Engineer', 'Mumbai, India', '2020-09-23', 'No', '543284b3413aa53934514fe0b2d6d436', 0),
-(2, 'Zakiya Khan', 'b1d41e8f8ef8d551358c7b61f76993501600433094.png1600957089.png', 'zakiyakhan9746@gmail.com', 9876543210, 'Engineer', 'Mumbai', '2020-09-24', 'No', '927273d442d08db04cd67ea714c7426b', 0),
-(3, 'Mohsin Essani', '94f512a17a11048b4d473f272918efbb1600774532.jpg1600957210.jpg', 'mohsinessani@gmail.com', 9967867833, 'Masters', 'Mumbai', '2020-09-24', 'No', 'eec00e82e35ac5a359a7e1f871a991b6', 0),
-(5, 'Hamza Chowdhury', 'ddc01577479ff46e6d42027edc5fba5c1600774634.jpg1600958557.jpg', 'hamzachowdhry123@gmail.com', 1234567890, 'Masters', 'Mumbai', '2020-09-24', 'No', 'a60cea2beeb73f56fcd3cf8f2929db23', 0);
+(2, 'Zakiya Khan', 'b1d41e8f8ef8d551358c7b61f76993501600433094.png1600957089.png', 'zakiyakhan9746@gmail.com', 9876543210, 'Engineer', 'Mumbai', '2020-09-24', 'Yes', '927273d442d08db04cd67ea714c7426b', 0),
+(3, 'Mohsin Essani', '94f512a17a11048b4d473f272918efbb1600774532.jpg1600957210.jpg', 'mohsinessani@gmail.com', 9967867833, 'Masters', 'Mumbai', '2020-09-24', 'Yes', 'eec00e82e35ac5a359a7e1f871a991b6', 0),
+(5, 'Hamza Chowdhury', 'ddc01577479ff46e6d42027edc5fba5c1600774634.jpg1600958557.jpg', 'hamzachowdhry123@gmail.com', 1234567890, 'Masters', 'Mumbai', '2020-09-24', 'Yes', 'a60cea2beeb73f56fcd3cf8f2929db23', 0);
 
 --
 -- Indexes for dumped tables
@@ -305,9 +353,21 @@ ALTER TABLE `courses`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `filestatus`
+--
+ALTER TABLE `filestatus`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `payment`
 --
 ALTER TABLE `payment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `placement`
+--
+ALTER TABLE `placement`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -336,7 +396,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `appliedcourses`
 --
 ALTER TABLE `appliedcourses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `coursecontent`
@@ -357,10 +417,22 @@ ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
+-- AUTO_INCREMENT for table `filestatus`
+--
+ALTER TABLE `filestatus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `placement`
+--
+ALTER TABLE `placement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `staff`

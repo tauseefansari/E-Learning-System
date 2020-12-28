@@ -1,6 +1,7 @@
 <?php 
   require '../database.php';
   require '../backend.php';
+  error_reporting(0);
 
   if(isset($_SESSION['staff_id']))
   {
@@ -67,6 +68,73 @@
       object-fit: cover;
     }
 
+    :root {
+		--white: #ffffff;
+		--light: #f0eff3;
+		--black: #000000;
+		--dark-blue: #1f2029;
+		--dark-light: #353746;
+		--red: #da2c4d;
+		--yellow: #f8ab37;
+		--grey: #ecedf3;
+	}
+
+    .checkbox-tools:checked + label,
+	.checkbox-tools:not(:checked) + label{
+		position: relative;
+		display: inline-block;
+		padding: 20px;
+		width: 110px;
+		font-size: 14px;
+		line-height: 20px;
+		letter-spacing: 1px;
+		margin: 0 auto;
+		margin-left: 5px;
+		margin-right: 5px;
+		margin-bottom: 10px;
+		text-align: center;
+		border-radius: 4px;
+		overflow: hidden;
+		cursor: pointer;
+		text-transform: uppercase;
+		color: var(--yellow);
+		-webkit-transition: all 300ms linear;
+		transition: all 300ms linear; 
+	}
+	.checkbox-tools:not(:checked) + label{
+		background-color: var(--black);
+		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+	}
+	.checkbox-tools:checked + label{
+		background-image: linear-gradient(298deg, var(--red), var(--yellow));
+		color: var(--white);
+		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+	}
+	.checkbox-tools:not(:checked) + label:hover{
+		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+	}
+	.checkbox-tools:checked + label::before,
+	.checkbox-tools:not(:checked) + label::before{
+		position: absolute;
+		color: var(--white);
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: 4px;
+		background-image: linear-gradient(298deg, var(--yellow), var(--red));
+		z-index: -1;
+	}
+	.checkbox-tools:checked + label .uil,
+	.checkbox-tools:not(:checked) + label .uil{
+		color: var(--white);
+		font-size: 24px;
+		line-height: 24px;
+		display: block;
+		padding-bottom: 10px;
+	}
+
+
   </style>
 
 </head>
@@ -104,10 +172,10 @@
         <div class="row">
 
           <!-- Grid column -->
-          <div class="col-lg-9 wow animated bounceInUp">
-            <h3 class="h3 blue-gradient text-light p-3 font-weight-bold text-center" style="border-radius:50px;">Students Payments</h3>
+          <div class="col-lg-9 wow animated bounceInDown">
+            <h3 class="h3 blue-gradient text-light p-3 font-weight-bold text-center" style="border-radius:50px;">Students Placement</h3>
             <?php 
-              $query = mysqli_query($con, "SELECT * FROM student JOIN payment ON student.id=payment.studentId WHERE disable=0");
+              $query = mysqli_query($con, "SELECT student.id AS ID,student.name AS SNAME, placement.name AS COMPANY, email,profilePic FROM student JOIN placement ON student.id=placement.studentId WHERE student.disable=0");
             ?>
 
             <table id="dt-cell-sellection" class="table table-hover" cellspacing="0" width="100%">
@@ -117,11 +185,9 @@
                   </th>
                   <th class="th-sm text-center">Profile Pic
                   </th>
-                  <th class="th-sm text-center">Amount Paid
+                  <th class="th-sm text-center">Email
                   </th>
-                  <th class="th-sm text-center">Amount Remaining
-                  </th>
-                  <th class="th-sm text-center">Total Amount
+                  <th class="th-sm text-center">Placed In
                   </th>
                 </tr>
               </thead>
@@ -129,15 +195,16 @@
                 <?php 
                   while ($row = mysqli_fetch_array($query))
                   {
-                    if($row['totalPayment'] != 0)
+                    if($row['COMPANY'] != "")
                     {
                 ?>
                     <tr>
-                      <td class="align-middle text-center"> <strong> <?php echo $row['name']; ?> </strong> </td>
+                      <td class="align-middle text-center"> <strong> <?php echo $row['SNAME']; ?> </strong> </td>
                       <td class="align-middle text-center"><img src="../assets/img/profile/<?php echo $row['profilePic']; ?>" style="width: 100px;height: 100px;border-radius: 50px;"></td>
-                      <td class="align-middle text-center"> <?php echo $row['paidPayment']; ?> </td>
-                      <td class="align-middle text-center"> <?php echo $row['totalPayment'] - $row['paidPayment']; ?> </td>
-                      <td class="align-middle text-center"> <?php echo $row['totalPayment']; ?> </td>
+                      <td class="align-middle text-center"> <?php echo $row['email']; ?> </td>
+                      <td class="align-middle text-center">
+                      	<input type="hidden" name="id" value="<?php echo $row['ID'];?>" class="delete_id_value">
+                       <?php echo $row['COMPANY']; ?> <a href="javascript:void(0)" class="delete_btn_ajax"> <i class="fa fa-trash text-danger mr-2"> </i></a> </td>
                     </tr>
                 <?php
                     }
@@ -150,24 +217,24 @@
           <!-- Grid column -->
 
           <!-- Grid column -->
-          <div class="col-lg-3 wow animated bounceInDown" data-wow-delay="0.4s">
+          <div class="col-lg-3 wow animated bounceInUp" data-wow-delay="0.4s">
               <!-- Card -->
             <div class="card card-cascade narrower">
 
               <!-- Card image -->
               <div class="view view-cascade gradient-card-header blue-gradient">
-                <h4 class="font-weight-500 mb-0 font-weight-bold">Add Payments</h4>
+                <h4 class="font-weight-500 mb-0 font-weight-bold">Add Placement</h4>
               </div>
               <!-- Card image -->
 
               <!-- Card content -->
               <div class="card-body card-body-cascade">
-                <form method="post" id="payment">
-                <div class="md-form mt-1 mb-2">
+                <form method="post" id="placement">
+                <div class="md-form mt-1 mb-2" style="display:block !important;">
                   <select class="mdb-select colorful-select dropdown-primary md-form" id="student" searchable="Search here.." required>
                   <option value="" disabled selected>- Select Student -</option>
                   <?php 
-                    $student = mysqli_query($con, "SELECT id,name FROM student");
+                    $student = mysqli_query($con, "SELECT id,name FROM student WHERE placement = 'No'");
                     while ($row = mysqli_fetch_array($student))
                     {
                   ?>
@@ -179,23 +246,43 @@
                 <label class="mdb-main-label">Student</label>
               </div>
               <div id="show_data" style="display: none">
-                <div class="md-form mt-1 mb-4" style="display:block !important;">
-                  <input type="text" id="rem" class="form-control text-center" readonly>
-                  <label class="form-check-label" for="rem">Remaining</label>
-                </div>
-                <div class="md-form mt-1 mb-4 wow animated bounceInDown" data-wow-delay="0.2s">
-                  <input type="number" id="pay" class="form-control text-center" required>
-                  <label class="form-check-label" for="pay">Pay</label>
-                </div>
-                <div class="md-form mt-1 mb-4 wow animated bounceInDown text-center" data-wow-delay="0.2s">
-                	<button class="btn btn-outline-info waves-effect" type="button" onclick="amt100()"> ₹100 </button>
-                	<button class="btn btn-outline-success waves-effect" type="button" onclick="amt500()"> ₹500 </button>
-                	<button class="btn btn-outline-danger waves-effect" type="button" onclick="amt1000()"> ₹1000 </button>
-                </div>
-              </div>
-                <div class="text-right mt-5" style="position: relative;">
-                  <button class="btn btn-primary" type="submit">Pay</button>
-                  <button class="btn btn-flat waves-effect" type="reset">Discard</button>
+              	<label class="label p-2">Select Comapany</label>
+                <div class="col-12 pb-5">
+					<input class="checkbox-tools check" value="Morgan Stanley" type="radio" name="company" id="tool-1" checked>
+					<label class="for-checkbox-tools" for="tool-1">
+						<i class='uil fas fa-building'></i>
+						Morgan Stanley
+					</label><!--
+					--><input class="checkbox-tools" value="Capegemini" type="radio" name="company" id="tool-2">
+					<label class="for-checkbox-tools" for="tool-2">
+						<i class='uil fas fa-building'></i>
+						Capegemini
+					</label><!--
+					--><input class="checkbox-tools" value="Amazon" type="radio" name="company" id="tool-3">
+					<label class="for-checkbox-tools" for="tool-3">
+						<i class='uil fas fa-building'></i>
+						Amazon
+					</label><!--
+					--><input class="checkbox-tools" value="Larsen & Turbo" type="radio" name="company" id="tool-4">
+					<label class="for-checkbox-tools" for="tool-4">
+						<i class='uil fas fa-building'></i>
+						Larsen & Turbo
+					</label><!--
+					--><input class="checkbox-tools" value="Accenture" type="radio" name="company" id="tool-5">
+					<label class="for-checkbox-tools" for="tool-5">
+						<i class='uil fas fa-building'></i>
+						Accenture
+					</label><!--
+					--><input class="checkbox-tools" value="Google" type="radio" name="company" id="tool-6">
+					<label class="for-checkbox-tools" for="tool-6">
+						<i class='uil fas fa-building'></i>
+						Google
+					</label>
+				</div>
+              	</div>
+                <div class="text-right" style="position: relative;">
+                  <button class="btn btn-primary" type="submit">Place</button>
+                  <button class="btn btn-flat waves-effect" type="reset">Cancel</button>
                 </div>
               </form>
               </div>
@@ -278,33 +365,6 @@
     new WOW().init();
     // Tooltips Initialization
 
-    function amt100()
-    {
-    	if(document.getElementById("pay").value=="")
-    	{
-			document.getElementById("pay").value = parseInt("0");    		
-    	}
-    	document.getElementById("pay").value = (parseInt(document.getElementById("pay").value) + 100);
-    }
-
-    function amt500()
-    {
-    	if(document.getElementById("pay").value=="")
-    	{
-			document.getElementById("pay").value = parseInt("0");    		
-    	}
-    	document.getElementById("pay").value = (parseInt(document.getElementById("pay").value) + 500);
-    }
-
-    function amt1000()
-    {
-    	if(document.getElementById("pay").value=="")
-    	{
-			document.getElementById("pay").value = parseInt("0");    		
-    	}
-    	document.getElementById("pay").value = (parseInt(document.getElementById("pay").value) + 1000);
-    }
-
     jQuery(document).ready(function($){
       $('#dt-cell-sellection').dataTable({
         select: {
@@ -313,86 +373,73 @@
         }
       });
 
+      $(document).ready(function () {
+      $('.mdb-select').materialSelect();
+    });
+
       $('#student').on('change', function()
       { 
         $('#show_data').css('display',"block");
-        var id = $('#student').val();
-        $.ajax({
-        url: "../backend.php",
-        method: 'post',
-        data: {
-          "pay_details": 1,
-          "val": id,},
-        success: function (data) {
-            $("#rem").val(data);
-        }
-    });
       });
     });
 
 
-    $(document).ready(function () {
-      $('.mdb-select').materialSelect();
-    });
-
-    $('#payment').on('submit', function(e)
+    $('#placement').on('submit', function(e)
     {
       e.preventDefault();
-      var pay = $('#pay').val();
-      var rem = $('#rem').val();
+      var company = $('input[name="company"]:checked').val();
       var id = $('#student').val();
+      $.ajax({
+          type: "POST",
+          url: "../backend.php",
+          data: {
+              "placement_set" : 1,
+              "id" : id,
+              "company" : company,
+          },
+          success: function(response)
+          {
+            swal("Placement Added Successfully!",{
+               icon: "success",
+            }).then((result) => {
+              location.reload();
+            });
+          }
+      });
+    });
 
-      if(parseInt(pay) > parseInt(rem))
-      {
-      	swal({
-	      title: "Payment more amount?",
-	      text: "Are you sure you want to pay more than Remaining Amount?",
-	      icon: "warning",
-	      buttons: true,
-	      dangerMode: true,
-	    })
-	    .then((willDelete) => {
-	      if (willDelete) {
-	        $.ajax({
-	          type: "POST",
-	          url: "../backend.php",
-	          data: {
-	              "pay_set" : 1,
-	              "id" : id,
-	              "pay" : pay,
-	          },
-	          success: function(response)
-	          {
-	            swal("Amount Paid Successfully!",{
-	               icon: "success",
-	            }).then((result) => {
-	              location.reload();
-	            });
-	          }
-	      });
-	      }
-	    });
-      }
-      else
-      {
-	      $.ajax({
-	          type: "POST",
-	          url: "../backend.php",
-	          data: {
-	              "pay_set" : 1,
-	              "id" : id,
-	              "pay" : pay,
-	          },
-	          success: function(response)
-	          {
-	            swal("Amount Paid Successfully!",{
-	               icon: "success",
-	            }).then((result) => {
-	              location.reload();
-	            });
-	          }
-	      });
-	    }
+    jQuery(document).ready(function($){
+      $('.delete_btn_ajax').click(function(e){
+        e.preventDefault();
+        var deleteid = $(this).closest("td").find('.delete_id_value').val();
+        swal({
+              title: "Are you sure?",
+              text: "Are you sure you want to remove this placement!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                $.ajax({
+                    type: "POST",
+                    url: "../backend.php",
+                    data: {
+                        "placement_delete_btn_set" : 1,
+                        "delete_id" : deleteid,
+                    },
+                    success: function(response)
+                    {
+                        swal("Placement Removed Successfully!",{
+                           icon: "success",
+                        }).then((result) => {
+                          location.reload();
+                        });
+                    }
+                });
+              }
+            });
+          });
     });
     
   </script>

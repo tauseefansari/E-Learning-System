@@ -24,8 +24,8 @@
             <strong> Payment </strong>
         </a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="#">
+        <li class="nav-item <?php if(basename($_SERVER['PHP_SELF'])=="placement.php") echo "active";?>">
+          <a class="nav-link" href="placement.php">
             <strong> Placement </strong>
         </a>
         </li>

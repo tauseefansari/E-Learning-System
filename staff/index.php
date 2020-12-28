@@ -290,13 +290,13 @@
         <form method="post" action="../backend.php">
         <div class="md-form mb-5">
           <i class="fas fa-lock prefix grey-text"></i>
-          <input type="password" id="defaultForm-email" name="password1" class="form-control validate">
+          <input type="password" id="defaultForm-email" name="password1" class="form-control validate" required>
           <label data-error="wrong" data-success="Good" for="defaultForm-email">Enter New Password</label>
         </div>
 
         <div class="md-form mb-4">
           <i class="fas fa-lock prefix grey-text"></i>
-          <input type="password" id="defaultForm-pass" name="password2" class="form-control validate">
+          <input type="password" id="defaultForm-pass" name="password2" class="form-control validate" required>
           <label data-error="wrong" data-success="Good" for="defaultForm-pass">Confirm Password</label>
         </div>
 

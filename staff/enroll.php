@@ -191,8 +191,8 @@
               <!-- Card content -->
               <div class="card-body card-body-cascade">
                 <form method="post" id="enroll">
-                <div class="md-form mt-1 mb-2">
-                  <select class="mdb-select colorful-select dropdown-primary md-form" id="course" multiple searchable="Search here..">
+                <div class="md-form mt-1 mb-2" style="display:block !important;">
+                  <select class="mdb-select colorful-select dropdown-primary md-form" id="course" multiple searchable="Search here.." required="true">
                   <option value="" disabled selected>- Select Course -</option>
                   <?php 
                     $query = mysqli_query($con, "SELECT id,name,price FROM courses");
@@ -208,7 +208,7 @@
               </div>
             
                 <div class="md-form mt-1 mb-2" style="display:block !important;">
-                  <select class="mdb-select colorful-select dropdown-primary md-form" id="student" multiple searchable="Search here..">
+                  <select class="mdb-select colorful-select dropdown-primary md-form" id="student" multiple searchable="Search here.." required>
                   <option value="" disabled selected>- Select Student -</option>
                   <?php 
                     $query = mysqli_query($con, "SELECT id,name FROM student WHERE disable=0");
@@ -264,13 +264,13 @@
         <form method="post" action="../backend.php">
         <div class="md-form mb-5">
           <i class="fas fa-lock prefix grey-text"></i>
-          <input type="password" id="defaultForm-email" name="password1" class="form-control validate">
+          <input type="password" id="defaultForm-email" name="password1" class="form-control validate" required>
           <label data-error="wrong" data-success="Good" for="defaultForm-email">Enter New Password</label>
         </div>
 
         <div class="md-form mb-4">
           <i class="fas fa-lock prefix grey-text"></i>
-          <input type="password" id="defaultForm-pass" name="password2" class="form-control validate">
+          <input type="password" id="defaultForm-pass" name="password2" class="form-control validate" required>
           <label data-error="wrong" data-success="Good" for="defaultForm-pass">Confirm Password</label>
         </div>
 
@@ -328,23 +328,31 @@
       e.preventDefault();
       var student = $('#student').val().join(',');
       var course = $('#course').val().join(',');
-      $.ajax({
-          type: "POST",
-          url: "../backend.php",
-          data: {
-              "enroll_set" : 1,
-              "students" : student,
-              "courses" : course,
-          },
-          success: function(response)
-          {
-            swal("Students Enrolled Successfully!",{
-               icon: "success",
-            }).then((result) => {
-              location.reload();
-            });
-          }
-      });
+      if(student.length==0 || course.length==0)
+      {
+        swal("Select Students and Courses",{
+               icon: "warning",});
+      }
+      else
+      {  
+        $.ajax({
+            type: "POST",
+            url: "../backend.php",
+            data: {
+                "enroll_set" : 1,
+                "students" : student,
+                "courses" : course,
+            },
+            success: function(response)
+            {
+              swal("Students Enrolled Successfully!",{
+                 icon: "success",
+              }).then((result) => {
+                location.reload();
+              });
+            }
+        });
+      }
     });
     
     jQuery(document).ready(function($){

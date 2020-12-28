@@ -493,4 +493,33 @@
       $query=mysqli_query($con,"DELETE FROM coursefiles WHERE contentid = $contentid");  
       $delcontent = mysqli_query($con, "DELETE FROM coursecontent WHERE id=$contentid");
   }
+  
+  if(isset($_POST['placement_set']))
+  {
+    $id = $_POST['id'];
+    $company = $_POST['company'];
+    $query = mysqli_query($con, "UPDATE student SET placement = 'Yes' WHERE id = '$id'");
+    $placement = mysqli_query($con, "INSERT INTO placement (`studentId`, `name`) VALUES ('$id','$company')");
+  }
+
+  if(isset($_POST['placement_delete_btn_set']))
+  {
+      $id = $_POST['delete_id'];
+      $query = mysqli_query($con, "UPDATE student SET placement = 'No' WHERE id = '$id'");
+      $placement = mysqli_query($con, "DELETE FROM placement WHERE studentId = '$id'");
+  }
+
+  if(isset($_POST['switch_val']))
+  {
+  	  $sid= $_SESSION['student_id'];
+      $fileid = $_POST['file_id'];
+      $query = mysqli_query($con, "INSERT INTO filestatus (`studentId`, `fileId`, `complete`) VALUES ('$sid','$fileid',1)");
+  }
+
+  if(isset($_POST['switch_val2']))
+  {
+  	  $sid= $_SESSION['student_id'];
+      $fileid2 = $_POST['file_id2'];
+      $query = mysqli_query($con, "UPDATE filestatus SET complete=0 WHERE fileId = '$fileid2' AND studentId = '$sid'");
+  }
 ?>
