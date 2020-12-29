@@ -143,7 +143,6 @@
       <!-- News card -->
     </section>
 
-    <div class="container">
     <div class="col-md-6 col-xl-5 mb-2">
 
       <div class="btn-group" data-toggle="buttons">
@@ -165,6 +164,7 @@
     </div>
 
     <!-- Panel -->
+    <div class="container">
     <div class="card text-center mt-3" id="ongoing">
       <div class="card-header danger-color white-text">
         <i class="fas fa-spinner fa-2x mb-3" aria-hidden="true"></i> <h4> Ongoing Files</h4>
@@ -183,6 +183,12 @@
             $start=0;
             $contentid = $row['id'];
             $files = mysqli_query($con, "SELECT * FROM coursefiles WHERE id NOT IN (SELECT fileId FROM filestatus WHERE complete=1) AND contentid='$contentid'");
+            if(mysqli_num_rows($files)<1)
+            {
+            	echo '<h4 class="h4"> No Files to Show! </h4>';
+            }
+            else
+            {
             while($res = mysqli_fetch_array($files))
             {
               if($start % 3 == 0)
@@ -244,8 +250,8 @@
               </div>
             </div>
           <!--Grid column-->
-        <?php 
-            $start++;
+        <?php
+        	$start++; 
             if($start % 3 == 0)
             {
               echo '</div>';
@@ -253,15 +259,18 @@
           }
           echo '</div>';
         }
+    	}
         ?>
       </div>
       <div class="card-footer text-muted danger-color white-text">
         <p class="mb-0 text-center text-light">End of ongoing courses!</p>
       </div>
     </div>
+	</div>
     <!-- Panel -->
 
     <!-- Panel -->
+    <div class="container">
     <div class="card text-center mt-3" id="completed">
       <div class="card-header success-color white-text">
         <i class="fas fa-check-double fa-2x mb-3" aria-hidden="true"></i> <h4> Completed Files</h4>
@@ -280,6 +289,12 @@
             $start=0;
             $contentid = $row['id'];
             $files = mysqli_query($con, "SELECT * FROM coursefiles JOIN filestatus ON coursefiles.id=filestatus.fileId WHERE filestatus.complete=1 AND coursefiles.contentid='$contentid'");
+            if(mysqli_num_rows($files)<1)
+            {
+            	echo '<h4 class="h4"> No Files to Show! </h4>';
+            }
+            else
+            {
             while($res = mysqli_fetch_array($files))
             {
               if($start % 3 == 0)
@@ -340,8 +355,8 @@
               </div>
             </div>
           <!--Grid column-->
-        <?php 
-            $start++;
+        <?php
+        	$start++; 
             if($start % 3 == 0)
             {
               echo '</div>';
@@ -349,15 +364,18 @@
           }
           echo '</div>';
         }
+    	}
         ?>
       </div>
       <div class="card-footer text-muted success-color white-text">
         <p class="mb-0 text-center text-light">End of completed Files!</p>
       </div>
     </div>
+	</div>
     <!-- Panel -->
 
     <!-- Panel -->
+    <div class="container">
     <div class="card text-center mt-3" id="all">
       <div class="card-header primary-color white-text">
         <i class="fas fa-globe-asia fa-2x mb-3" aria-hidden="true"></i> <h4> All Files</h4>
@@ -368,14 +386,20 @@
           while ($row = mysqli_fetch_array($query))
           {
         ?>
-            <h4 class="font-weight-bold mt-4 title-1">
+            <h4 class="font-weight-bold mt-4 title-1 text-left">
               <strong><?php echo $row['title']; ?></strong>
             </h4>
             <hr class="blue mb-5">
         <?php
             $start=0;
             $contentid = $row['id'];
-            $files = mysqli_query($con, "SELECT * FROM coursefiles JOIN filestatus ON coursefiles.id=filestatus.fileId WHERE coursefiles.contentid='$contentid'");
+            $files = mysqli_query($con, "SELECT * FROM coursefiles WHERE contentid='$contentid'");
+            if(mysqli_num_rows($files)<1)
+            {
+            	echo '<h4 class="h4"> No Files to Show! </h4>';
+            }
+            else
+            {
             while($res = mysqli_fetch_array($files))
             {
               if($start % 3 == 0)
@@ -429,21 +453,25 @@
             </div>
           <!--Grid column-->
         <?php 
-            $start++;
+        	$start++;
             if($start % 3 == 0)
             {
               echo '</div>';
             }
           }
           echo '</div>';
-        }
+        	}
+    	}
         ?>
       </div>
       <div class="card-footer text-muted primary-color white-text">
         <p class="mb-0 text-center text-light">End of All Files!</p>
       </div>
     </div>
+	</div>
     <!-- Panel -->
+	</div>
+	</div>
   </div>
 </div>
 </div>

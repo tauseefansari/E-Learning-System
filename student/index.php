@@ -153,7 +153,7 @@
                     <img src="../assets/img/courses/<?php echo $row['profilePic'];?>" class="img-fluid" 
                       alt="">
 
-                    <a>
+                    <a href="studentcourse.php?course=<?php echo $row['courseId']; ?>">
 
                       <div class="mask rgba-white-slight"></div>
 
@@ -170,7 +170,7 @@
 
                       <strong>
 
-                        <a href="" class="dark-grey-text"><?php echo $row['name'];?></a>
+                        <a href="studentcourse.php?course=<?php echo $row['courseId']; ?>" class="dark-grey-text"><?php echo $row['name'];?></a>
 
                       </strong>
 
@@ -240,8 +240,8 @@
                 <!-- Card -->
               </div>
               <!-- Grid column -->
-              <?php 
-              		$start++;
+              <?php
+                  $start++; 
               		if($start % 3 == 0)
               		{
               			echo '</div>';
