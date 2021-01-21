@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2020 at 04:10 PM
+-- Generation Time: Jan 21, 2021 at 04:25 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -68,7 +68,7 @@ INSERT INTO `appliedcourses` (`id`, `studentId`, `courseId`, `progress`, `joinin
 (2, 3, 4, 0, '2020-12-24 06:57:09', 'No'),
 (7, 1, 10, 0, '2020-12-24 06:59:27', 'No'),
 (8, 1, 11, 0, '2020-12-24 06:59:27', 'No'),
-(9, 1, 14, 0, '2020-12-24 06:59:27', 'No'),
+(9, 1, 14, 100, '2020-12-24 06:59:27', 'Certificate_Tauseef Ansari_React JS.pdf'),
 (10, 1, 18, 0, '2020-12-24 06:59:27', 'No'),
 (15, 5, 1, 0, '2020-12-24 07:12:04', 'No'),
 (16, 5, 2, 0, '2020-12-24 07:12:04', 'No'),
@@ -203,11 +203,16 @@ CREATE TABLE `filestatus` (
 --
 
 INSERT INTO `filestatus` (`id`, `studentId`, `fileId`, `complete`) VALUES
-(5, 1, 49, 0),
-(7, 1, 48, 0),
-(9, 1, 51, 0),
-(10, 1, 52, 0),
-(11, 1, 49, 1);
+(29, 1, 48, 0),
+(30, 1, 48, 1),
+(31, 1, 49, 0),
+(32, 1, 50, 0),
+(33, 1, 51, 0),
+(34, 1, 52, 0),
+(35, 1, 49, 1),
+(36, 1, 50, 1),
+(37, 1, 51, 1),
+(38, 1, 52, 1);
 
 -- --------------------------------------------------------
 
@@ -230,8 +235,8 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`id`, `studentId`, `totalPayment`, `paidPayment`, `mode`, `paymentDate`, `history`) VALUES
-(1, 1, 29495, 4000, 'NA', '2020-12-24 06:50:02', 'NA'),
-(3, 2, 63190, 7000, 'NA', '2020-12-24 06:52:02', 'NA'),
+(1, 1, 29495, 11500, 'NA', '2020-12-24 06:50:02', 'NA'),
+(3, 2, 63190, 28200, 'NA', '2020-12-24 06:52:02', 'NA'),
 (4, 3, 28696, 2400, 'NA', '2020-12-24 06:52:33', 'NA'),
 (5, 5, 23997, 12000, 'NA', '2020-12-24 06:53:42', 'NA');
 
@@ -254,8 +259,8 @@ CREATE TABLE `placement` (
 INSERT INTO `placement` (`id`, `studentId`, `name`) VALUES
 (10, 3, 'Amazon'),
 (11, 5, 'Accenture'),
-(12, 2, 'Google'),
-(13, 0, 'Morgan Stanley');
+(13, 0, 'Morgan Stanley'),
+(14, 2, 'Google');
 
 -- --------------------------------------------------------
 
@@ -420,7 +425,7 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `filestatus`
 --
 ALTER TABLE `filestatus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -432,7 +437,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `placement`
 --
 ALTER TABLE `placement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `staff`

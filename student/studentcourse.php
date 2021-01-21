@@ -135,6 +135,32 @@
 
               <strong>Duration : </strong><?php echo $result['duration']; ?> Months</p>
 
+            <?php 
+              $query = mysqli_query($con, "SELECT * FROM appliedCourses WHERE studentId = '$id' AND courseId='$courseid' AND progress=100");
+              if(mysqli_num_rows($query) == 1)
+              {
+                $row = mysqli_fetch_array($query);
+                $check =  mysqli_query($con, "SELECT * FROM payment WHERE studentId='$id'");
+                $check_payment = mysqli_fetch_array($check);
+                if($check_payment['totalPayment'] == $check_payment['paidPayment'])
+                {
+            ?>
+            <a class="ml-auto" href="../assets/img/Certificates/<?php echo $row['certificate']; ?>" target="_blank">
+              <button class="btn btn-primary btn-rounded text-center">
+                <i class="fa fa-download fa-2x" aria-hidden="true"></i>&nbsp; Download Certificate
+              </button>
+            </a>
+            <?php
+                }
+                else
+                {
+            ?>
+                <h4 class="h4 bg-danger text-light p-3">You can only download certificate once you done payment!</h4>  
+            <?php
+                } 
+              }
+            ?>
+
           </div>
 
         </div>
@@ -240,6 +266,9 @@
                   <h6 class="text-left"> <?php echo $res['filename'];?> <br> <span class="text-danger mt-3"> <?php echo $res['size'];?></span> </h6>
                   <div class="switch ong pull-right">
                     <input type="hidden" value="<?php echo $res['id'];?>" class="check_value">
+                    <input type="hidden" value="<?php echo $courseid;?>" class="courseid">
+                    <input type="hidden" value="<?php echo $_SESSION['login_student'];?>" class="sname">
+                    <input type="hidden" value="<?php echo $coursename;?>" class="course">
                     <label>
                       Incomplete
                       <input type="checkbox">
@@ -345,6 +374,9 @@
                   <h6 class="text-left"> <?php echo $res['filename'];?> <br> <span class="text-danger mt-3"> <?php echo $res['size'];?></span> </h6>
                   <div class="switch comp pull-right">
                     <input type="hidden" value="<?php echo $res['fileId'];?>" class="check_value2">
+                    <input type="hidden" value="<?php echo $courseid;?>" class="courseid">
+                    <input type="hidden" value="<?php echo $_SESSION['login_student'];?>" class="sname">
+                    <input type="hidden" value="<?php echo $coursename;?>" class="course">
                     <label>
                       Incomplete
                       <input type="checkbox" checked="checked">
@@ -641,12 +673,18 @@
     jQuery(document).ready(function($){
       $('.ong').change(function(e){
         var check = $(this).closest(".switch").find('.check_value').val();
+        var course = $(this).closest(".switch").find('.courseid').val();
+        var cname = $(this).closest(".switch").find('.course').val();
+        var sname = $(this).closest(".switch").find('.sname').val();
           $.ajax({
               type: "POST",
               url: "../backend.php",
               data: {
                   "switch_val" : 1,
                   "file_id" : check,
+                  "course_id" : course,
+                  "course_name" : cname,
+                  "student_name" : sname,
               },
               success: function(response)
               {
@@ -663,12 +701,18 @@
     jQuery(document).ready(function($){
       $('.comp').change(function(e){
         var check2 = $(this).closest(".switch").find('.check_value2').val();
+        var course = $(this).closest(".switch").find('.courseid').val();
+        var cname = $(this).closest(".switch").find('.course').val();
+        var sname = $(this).closest(".switch").find('.sname').val();
           $.ajax({
               type: "POST",
               url: "../backend.php",
               data: {
                   "switch_val2" : 1,
                   "file_id2" : check2,
+                  "course_id" : course,
+                  "course_name" : cname,
+                  "student_name" : sname,
               },
               success: function(response)
               {

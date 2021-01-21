@@ -71,6 +71,11 @@
       background-color :  #18d26e;
     }
 
+    .progress, .progress .progress-bar
+    {
+      height: 1rem !important;
+    }
+
   </style>
 
 </head>
@@ -295,7 +300,7 @@
                     <img src="../assets/img/courses/<?php echo $row['profilePic'];?>" class="img-fluid" 
                       alt="">
 
-                    <a>
+                    <a href="studentcourse.php?course=<?php echo $row['courseId']; ?>">
 
                       <div class="mask rgba-white-slight"></div>
 
@@ -312,7 +317,7 @@
 
                       <strong>
 
-                        <a href="" class="dark-grey-text"><?php echo $row['name'];?></a>
+                        <a href="studentcourse.php?course=<?php echo $row['courseId']; ?>" class="dark-grey-text"><?php echo $row['name'];?></a>
 
                       </strong>
 
@@ -365,6 +370,30 @@
                           <strong>₹ <?php echo $row['price'];?></a></strong>
 
                         </span>
+
+                        <span class="ml-auto">
+                          <?php 
+                            $check =  mysqli_query($con, "SELECT * FROM payment WHERE studentId='$id'");
+                            $check_payment = mysqli_fetch_array($check);
+                            if($check_payment['totalPayment'] == $check_payment['paidPayment'])
+                            {
+                          ?>
+                            <a href="../assets/img/Certificates/<?php echo $row['certificate']; ?>" data-toggle="tooltip" data-placement="top" title="Download Certificate" target="_blank" download>
+                              <i class="fa fa-download fa-2x"></i>
+                            </a>
+                          <?php 
+                            }
+                            else
+                            {
+                          ?>
+                            <a href="" data-toggle="tooltip" data-placement="top" title="Payment not done!">
+                              <i class="fa fa-info-circle fa-2x"></i>
+                            </a>
+                          <?php
+                            }
+                        ?>
+
+                      </span>
 
                       </div>
 

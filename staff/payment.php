@@ -166,11 +166,13 @@
                 <div class="md-form mt-1 mb-2">
                   <select class="mdb-select colorful-select dropdown-primary md-form" id="student" searchable="Search here.." required>
                   <option value="" disabled selected>- Select Student -</option>
-                  <?php 
-                    $student = mysqli_query($con, "SELECT id,name FROM student");
+                  <?php
+                    $id=''; 
+                    $student = mysqli_query($con, "SELECT id,name,email FROM student");
                     while ($row = mysqli_fetch_array($student))
                     {
                   ?>
+                    $id = $row['id'];
                     <option value="<?php echo $row['id'];?>"><?php echo $row['name'];?></option>  
                   <?php
                     }
@@ -194,6 +196,8 @@
                 </div>
               </div>
                 <div class="text-right mt-5" style="position: relative;">
+                  <input type="hidden" id="email" value="">
+                  <input type="hidden" id="total" value="">
                   <button class="btn btn-primary" type="submit">Pay</button>
                   <button class="btn btn-flat waves-effect" type="reset">Discard</button>
                 </div>
@@ -324,7 +328,10 @@
           "pay_details": 1,
           "val": id,},
         success: function (data) {
-            $("#rem").val(data);
+            var res = JSON.parse(data);
+            $("#rem").val(res.rem);
+            $('#email').val(res.email);
+            $('#total').val(res.total);
         }
     });
       });
@@ -341,6 +348,8 @@
       var pay = $('#pay').val();
       var rem = $('#rem').val();
       var id = $('#student').val();
+      var email = $('#email').val();
+      var total = $('#total').val();
 
       if(parseInt(pay) > parseInt(rem))
       {
@@ -360,6 +369,9 @@
 	              "pay_set" : 1,
 	              "id" : id,
 	              "pay" : pay,
+                "total" : total,
+                "email" : email,
+                "rem" : rem,
 	          },
 	          success: function(response)
 	          {
@@ -380,8 +392,11 @@
 	          url: "../backend.php",
 	          data: {
 	              "pay_set" : 1,
-	              "id" : id,
-	              "pay" : pay,
+                "id" : id,
+                "pay" : pay,
+                "total" : total,
+                "email" : email,
+                "rem" : rem,
 	          },
 	          success: function(response)
 	          {
