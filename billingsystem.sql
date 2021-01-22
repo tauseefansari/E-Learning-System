@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2021 at 04:25 PM
+-- Generation Time: Jan 22, 2021 at 11:44 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -237,7 +237,7 @@ CREATE TABLE `payment` (
 INSERT INTO `payment` (`id`, `studentId`, `totalPayment`, `paidPayment`, `mode`, `paymentDate`, `history`) VALUES
 (1, 1, 29495, 11500, 'NA', '2020-12-24 06:50:02', 'NA'),
 (3, 2, 63190, 28200, 'NA', '2020-12-24 06:52:02', 'NA'),
-(4, 3, 28696, 2400, 'NA', '2020-12-24 06:52:33', 'NA'),
+(4, 3, 28696, 6900, 'NA', '2020-12-24 06:52:33', 'NA'),
 (5, 5, 23997, 12000, 'NA', '2020-12-24 06:53:42', 'NA');
 
 -- --------------------------------------------------------

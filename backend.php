@@ -365,7 +365,7 @@
         $mail->AddAddress($email, 'Mindscript');  //Adds a "To" address       //Sets word wrapping on the body of the message to a given 
         $mail->IsHTML(true);       //Sets message type to HTML
         $mail->Subject = "Forgot Password Expertise Learning";    //Sets the Subject of the message
-        $message = '<b> Your password forgot request is receiver <br><br> Your Email is '.$email.' Click on the below link to forget/reset your password <br><br> <a href="'.$link.'">www.expertiselearning.com/staff/password/forgot/userid/'.md5($email).'</a>  <br><br> Thanks from Expertise Learning';
+        $message = '<b> Your password forgot request is receiver <br><br> Your Email is '.$email.' Click on the below link to forget/reset your password <br><br> <a href="'.$link.'" target="_blank">www.expertiselearning.com/staff/password/forgot/userid/'.md5($email).'</a>  <br><br> Thanks from Expertise Learning';
         $mail->Body = $message;       //An HTML or plain text message body
         $mail->Send();
         echo json_encode(array("status"=>1));
@@ -398,7 +398,7 @@
         $mail->AddAddress($email, 'Mindscript');  //Adds a "To" address       //Sets word wrapping on the body of the message to a given 
         $mail->IsHTML(true);       //Sets message type to HTML
         $mail->Subject = "Forgot Password Expertise Learning";    //Sets the Subject of the message
-        $message = '<b> Your password forgot request is receiver <br><br> Your Email is '.$email.' Click on the below link to forget/reset your password <br><br> <a href="'.$link.'">www.expertiselearning.com/student/password/forgot/userid/'.md5($email).'</a>  <br><br> Thanks from Expertise Learning';
+        $message = '<b> Your password forgot request is receiver <br><br> Your Email is '.$email.' Click on the below link to forget/reset your password <br><br> <a href="'.$link.'" target="_blank">www.expertiselearning.com/student/password/forgot/userid/'.md5($email).'</a>  <br><br> Thanks from Expertise Learning';
         $mail->Body = $message;       //An HTML or plain text message body
         $mail->Send();
         echo json_encode(array("status"=>1));

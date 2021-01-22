@@ -1,14 +1,13 @@
 <?php
-session_start();
-error_reporting(0);
-include('includes/dbconnection.php');
-if (strlen($_SESSION['trmsaid']==0)) {
-  header('location:logout.php');
-  } else{
+	session_start();
+    error_reporting(0);
+    include('../database.php');
+    if(strlen($_SESSION['userid'] == 0)) 
+    {
+        header('location:logout.php');
+    }
 
-
-
-  ?>
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -20,10 +19,17 @@ if (strlen($_SESSION['trmsaid']==0)) {
     <link rel="stylesheet" href="vendors/themify-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/addons/datatables.min.css">
+    <link rel="stylesheet" href="../assets/css/addons/datatables-select.min.css">
+
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+    <script src="../assets/js/sweetalert.js"></script>
 
 
 
@@ -32,7 +38,7 @@ if (strlen($_SESSION['trmsaid']==0)) {
 <body>
     <!-- Left Panel -->
 
-    ]    <?php include_once('includes/sidebar.php');?>
+    <?php include_once('includes/sidebar.php');?>
 
     <div id="right-panel" class="right-panel">
 
@@ -66,38 +72,35 @@ if (strlen($_SESSION['trmsaid']==0)) {
                                 <strong class="card-title">Manage Payments</strong>
                             </div>
                             <div class="card-body">
-                                <table class="table">
+                                <table id="dt-cell-sellection" class="table table-hover text-center">
                                     <thead>
                                         <tr>
                                             <tr>
-                  <th>Student ID</th>
-                  <th>Student Name</th>
-                  <th>Total Fees</th>
-                  <th>Fees Paid</th>
-                  <th>Remaning Balance</th>       
-                </tr>
+							                  <th class="th-sm text-center">SR NO</th>
+							                  <th class="th-sm text-center">Student Name</th>
+							                  <th class="th-sm text-center">Total Amount</th>
+							                  <th class="th-sm text-center">Paid Amount</th>
+							                  <th class="th-sm text-center">Remaning Amount</th>       
+							                </tr>
                                         </tr>
                                         </thead>
-<?php
-$sql='SELECT * FROM tblstudent INNER JOIN tblpayment ON (tblstudent.ID=tblpayment.StudentId)';
-$query = $dbh -> prepare($sql);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $row)
-{               ?>   
-              
-                <tr>
-                  <td><?php echo htmlentities($cnt);?></td>
-            <td><?php  echo htmlentities($row->Name);?></td>
-            <td><?php  echo htmlentities($row->Total);?></td>
-                  <td><?php  echo htmlentities(($row->Total)-($row->Remaining));?></td>
-                  <td><?php  echo htmlentities($row->Remaining);?></td>
-                </tr>
-               <?php $cnt=$cnt+1;}} ?>   
+										<?php
+										$sql='SELECT * FROM student INNER JOIN payment ON (student.id=payment.studentId)';
+										$query = mysqli_query($con, $sql);
+										$results = mysqli_fetch_all($query, MYSQLI_ASSOC);
+										$cnt=1;
+										if(mysqli_num_rows($query) > 0)
+										{
+										foreach($results as $row)
+										{               ?>   
+						                <tr>
+						                  <td class="align-middle"><?php echo htmlentities($cnt);?></td>
+						            	  <td class="align-middle"><?php  echo htmlentities($row['name']);?></td>
+						                  <td class="align-middle"><?php  echo htmlentities($row['totalPayment']);?></td>
+						                  <td class="align-middle"><?php  echo htmlentities($row['paidPayment']);?></td>
+						                  <td class="align-middle"><?php  echo htmlentities(($row['totalPayment'])-($row['paidPayment']));?></td>
+						                </tr>
+						               <?php $cnt=$cnt+1;}} ?>   
 
                                 </table>
                             </div>
@@ -119,12 +122,23 @@ foreach($results as $row)
     <script src="vendors/jquery/dist/jquery.min.js"></script>
     <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="../assets/js/mains.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables.min.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables-select.min.js"></script>
+
+
+    <script>
+    	jQuery(document).ready(function($){
+	      $('#dt-cell-sellection').dataTable({
+	        select: {
+	          style: 'os',
+	          items: 'cell'
+	        }
+	      });
+	    });
+    </script>
 
 
 </body>
 
 </html>
-<?php }  ?>
-
-

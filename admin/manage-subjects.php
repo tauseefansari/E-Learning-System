@@ -22,6 +22,10 @@
     <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/addons/datatables.min.css">
+    <link rel="stylesheet" href="../assets/css/addons/datatables-select.min.css">
+
     <link rel="stylesheet" href="../assets/css/styles.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
@@ -124,16 +128,17 @@
                                 <strong class="card-title">Manage Courses</strong>
                             </div>
                             <div class="card-body">
-                                <table class="table">
+                                <table id="dt-cell-sellection" class="table table-hover text-center">
                                     <thead>
                                         <tr>
-                                            <th>SR NO</th>
-                                            <th>Course Name</th>
-                                            <th>Course Image</th>
-                                            <th>Domain</th>
-                                            <th>Managed By</th>
-                                            <th>Price</th>       
-                                            <th colspan="2">Action</th>
+                                            <th class="th-sm text-center">SR NO</th>
+                                            <th class="th-sm text-center">Course Name</th>
+                                            <th class="th-sm text-center">Course Image</th>
+                                            <th class="th-sm text-center">Domain</th>
+                                            <th class="th-sm text-center">Managed By</th>
+                                            <th class="th-sm text-center">Price</th>
+                                            <th class="th-sm text-center">Edit</th>
+                                            <th class="th-sm text-center">Action</th>       
                                         </tr>
                                     </thead>
                                     <?php
@@ -147,14 +152,14 @@
                                             { 
                                     ?>   
                                         <tr>
-                                            <td><?php echo htmlentities($cnt);?></td>
-                                            <td><?php  echo htmlentities($row['name']);?></td>
-                                            <td><img src="../assets/img/courses/<?php echo $row['profilePic'];?>" height="100"></td>
-                                            <td><?php  echo htmlentities($row['domain']);?></td>
-                                            <td><?php  echo htmlentities($row['takenBy']);?></td>
-                                            <td><?php  echo htmlentities($row['price']);?></td>
-                                          <td><a href="edit-subjects-detail.php?editid=<?php echo htmlentities ($row['id']);?>">Edit Details</a></td>
-                                          <td>
+                                            <td class="align-middle"><?php echo htmlentities($cnt);?></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['name']);?></td>
+                                            <td class="align-middle"><img src="../assets/img/courses/<?php echo $row['profilePic'];?>" height="100"></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['domain']);?></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['takenBy']);?></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['price']);?></td>
+                                            <td class="align-middle"><a href="edit-subjects-detail.php?editid=<?php echo htmlentities ($row['id']);?>"><i class="fa fa-edit fa-2x text-info"></i></a></td>
+                                          <td class="align-middle">
                                             <input type="hidden" name="id" value="<?php echo $row['id'];?>" class="delete_id_value">
                                             <a href="javascript:void(0)" class="btn btn-danger delete_btn_ajax"> <i class="fa fa-trash"></i> </a>
                                           </td>
@@ -175,6 +180,8 @@
     <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../assets/js/mains.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables.min.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables-select.min.js"></script>
 
     <script>
         jQuery(document).ready(function($){
@@ -209,6 +216,15 @@
                       }
                     });
             });
+        });
+
+        jQuery(document).ready(function($){
+          $('#dt-cell-sellection').dataTable({
+            select: {
+              style: 'os',
+              items: 'cell'
+            }
+          });
         });
     </script>
 

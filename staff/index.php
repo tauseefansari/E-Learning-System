@@ -206,7 +206,7 @@
               <td class="align-middle"><?php echo $row['mobile']; ?></td>
               <td class="align-middle"><?php echo $row['qualification']; ?></td>
               <td class="align-middle">
-                <input type="hidden" name="id" value="<?php echo $id;?>" class="delete_id_value">
+                <input type="hidden" name="id" value="<?php echo $row['id'];?>" class="delete_id_value">
                 <a href="javascript:void(0)" class="btn btn-danger delete_btn_ajax"> <i class="fa fa-trash"></i> </a>
               </td>
             </tr>
@@ -391,7 +391,7 @@
                             }
                         });
                       }
-                    });
+                   });
             });
         });
     </script>

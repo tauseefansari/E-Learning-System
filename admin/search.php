@@ -1,14 +1,13 @@
 <?php
-session_start();
-error_reporting(0);
-include('includes/dbconnection.php');
-if (strlen($_SESSION['trmsaid']==0)) {
-  header('location:logout.php');
-  } else{
+    session_start();
+    error_reporting(0);
+    include('../database.php');
+    if(strlen($_SESSION['userid'] == 0)) 
+    {
+        header('location:logout.php');
+    }
 
-
-
-  ?>
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -20,13 +19,19 @@ if (strlen($_SESSION['trmsaid']==0)) {
     <link rel="shortcut icon" href="favicon.ico">
 
 
+    <link rel="apple-touch-icon" href="apple-icon.png">
+
     <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="vendors/themify-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
 
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/addons/datatables.min.css">
+    <link rel="stylesheet" href="../assets/css/addons/datatables-select.min.css">
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -73,80 +78,65 @@ if (strlen($_SESSION['trmsaid']==0)) {
                                 <strong class="card-title">Search Teacher</strong>
                             </div>
 
-<form name="search" method="post" style="padding-top: 20px" >
+                        <form name="search" method="post" style="padding-top: 20px" >
                         <div class="row">
                             <div class="col-12">
                                 <div class="card-box">
-                                   
-                                   
-                                       <div class="form-group row">
-                                                        <label class="col-4 col-form-label" for="example-email" style="padding-left: 50px"><strong>Search by Name or Subject</strong></label>
-                                                        <div class="col-6">
-                                                            <input id="searchdata" type="text" name="searchdata" required="true" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <p style="text-align: center;"><button type="submit" class="btn btn-primary btn-sm" name="search" id="submit">
-                                                            <i class="fa fa-dot-circle-o"></i> Search
-                                                        </button></p> 
+                                   <div class="form-group row">
+                                        <label class="col-4 col-form-label" for="example-email" style="padding-left: 50px"><strong>Search by Name or Subject</strong></label>
+                                        <div class="col-6">
+                                            <input id="searchdata" type="text" name="searchdata" required="true" class="form-control">
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center;"><button type="submit" class="btn btn-primary btn-sm" name="search" id="submit">
+                                    <i class="fa fa-dot-circle-o"></i> Search
+                                    </button></p>
+                                </div> 
+                            </form>
 
-                                                    </div> 
-                                    
-       </form>
+                            <?php
+                            if(isset($_POST['search']))
+                            { 
 
-
-<?php
-if(isset($_POST['search']))
-{ 
-
-$sdata=$_POST['searchdata'];
-  ?>
-  <h4 align="center">Result against "<?php echo $sdata;?>" keyword </h4> 
-
-
+                            $sdata=$_POST['searchdata'];
+                              ?>
+                              <h4 align="center">Result against <b>"<?php echo $sdata;?>"</b> keyword </h4> 
                             <div class="card-body">
-                                <table class="table">
+                                <table id="dt-cell-sellection" class="table table-hover text-center">
                                     <thead>
                                         <tr>
-                                            <tr>
-                  <th>S.NO</th>
-            
-                  <th>Teacher Name</th>
-                  <th>Subject</th>
-                    <th>Joining Date</th>       
-                   <th>Action</th>
-                </tr>
+                                            <th class="th-sm text-center">SR NO</th>
+                                            <th class="th-sm text-center">Staff Name</th>
+                                            <th class="th-sm text-center">Subject</th>
+                                            <th class="th-sm text-center">Joining Date</th>       
+                                            <th class="th-sm text-center">Action</th>
                                         </tr>
-                                        </thead>
+                                    </thead>
                                     <?php
-
-$sql="SELECT * from tblteacher where Name like '%$sdata%' || TeacherSub like  '%$sdata%'";
-$query = $dbh -> prepare($sql);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $row)
-{               ?>   
-              
-                <tr>
-                  <td><?php echo htmlentities($cnt);?></td>
-            <td><?php  echo htmlentities($row->Name);?></td>
-                  <td><?php  echo htmlentities($row->TeacherSub);?></td>
-                  <td><?php  echo htmlentities($row->JoiningDate);?></td>
-                  <td><a href="edit-teacher-detail.php?editid=<?php echo htmlentities ($row->ID);?>">Edit Details</a></td>
-                </tr>
-                 <?php 
-$cnt=$cnt+1;
-} } else { ?>
-  <tr>
-    <td colspan="8"> No record found against this search</td>
-
-  </tr>
-   
-<?php } }?>
-
+                                        $sql="SELECT * from staff where name like '%$sdata%' || subjectTaken like  '%$sdata%'";
+                                        $query = mysqli_query($con, $sql);
+                                        $results = mysqli_fetch_all($query, MYSQLI_ASSOC);
+                                        $cnt=1;
+                                        if(mysqli_num_rows($query) > 0)
+                                        {
+                                        foreach($results as $row)
+                                        {   
+                                    ?>   
+                                        <tr>
+                                          <td class="align-middle"><?php echo htmlentities($cnt);?></td>
+                                          <td class="align-middle"><?php  echo htmlentities($row['name']);?></td>
+                                          <td class="align-middle"><?php  echo htmlentities($row['subjectTaken']);?></td>
+                                          <td class="align-middle"><?php  echo htmlentities($row['joiningDate']);?></td>
+                                          <td class="align-middle"><a href="edit-teacher-detail.php?editid=<?php echo htmlentities ($row['id']);?>"><i class="fa fa-edit fa-2x text-info"></i></a></td>
+                                        </tr>
+                                    <?php 
+                                        $cnt=$cnt+1;
+                                        } } else { 
+                                    ?>
+                                        <tr>
+                                            <td colspan="8"> No record found against this search</td>
+                                        </tr>   
+                                        <?php } }?>
                                 </table>
                             </div>
                         </div>
@@ -166,11 +156,23 @@ $cnt=$cnt+1;
 
     <script src="vendors/jquery/dist/jquery.min.js"></script>
     <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="vendors/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="vendors/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
     <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="../assets/js/mains.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables.min.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables-select.min.js"></script>
 
+    <script>
+        jQuery(document).ready(function($){
+          $('#dt-cell-sellection').dataTable({
+            select: {
+              style: 'os',
+              items: 'cell'
+            }
+          });
+        });
+    </script>
 
 </body>
-
 </html>
-<?php }  ?>

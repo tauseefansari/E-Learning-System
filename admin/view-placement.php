@@ -1,29 +1,35 @@
 <?php
-session_start();
-error_reporting(0);
-include('includes/dbconnection.php');
-if (strlen($_SESSION['trmsaid']==0)) {
-  header('location:logout.php');
-  } else{
-
-
-
-  ?>
+    session_start();
+    error_reporting(0);
+    include('../database.php');
+    if(strlen($_SESSION['userid'] == 0)) 
+    {
+        header('location:logout.php');
+    }
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
     
     <title>Placement</title>
 
+    <link rel="apple-touch-icon" href="apple-icon.png">
+
     <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="vendors/themify-icons/css/themify-icons.css">
     <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/addons/datatables.min.css">
+    <link rel="stylesheet" href="../assets/css/addons/datatables-select.min.css">
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    
+    <script src="../assets/js/sweetalert.js"></script>
 
 
 
@@ -68,49 +74,42 @@ if (strlen($_SESSION['trmsaid']==0)) {
                                 <strong class="card-title">View Placements</strong>
                             </div>
                             <div class="card-body">
-                                <table class="table">
+                                <table id="dt-cell-sellection" class="table table-hover text-center">
                                     <thead>
                                         <tr>
                                             <tr>
-                  
-            
-                  <th>Student ID</th>
-                  <th>Student Name</th>
-                  <th>Placed</th>       
-                </tr>
-                                        </tr>
+                                              <th class="th-sm text-center">Student ID</th>
+                                              <th class="th-sm text-center">Student Name</th>
+                                              <th class="th-sm text-center">Placement Status</th>
+                                              <th class="th-sm text-center">Company Name</th>       
+                                            </tr>
                                         </thead>
-<?php
-$sql="SELECT * from tblstudent";
-$query = $dbh -> prepare($sql);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $row)
-{               ?>   
-              
-                <tr>
-                  <td><?php echo htmlentities($cnt);?></td>
-            <td><?php  echo htmlentities($row->Name);?></td>
-                  <td> <?php echo ($row->Placed=="Yes")? '<i class="fa fa-check-square-o" aria-hidden="true"></i>':'<i class="fa fa-times" aria-hidden="true"></i>'; ?> </td>
-                </tr>
-               <?php $cnt=$cnt+1;}} ?>   
-
-                                </table>
+                                        <?php
+                                            $sql="SELECT placement.name AS Company,student.name AS Name,placement FROM student LEFT JOIN placement ON placement.studentId=student.id WHERE student.disable = 0 AND (student.placement='No' OR student.placement='Yes') ORDER BY joiningDate";
+                                            $query = mysqli_query($con, $sql);
+                                            $results = mysqli_fetch_all($query, MYSQLI_ASSOC);
+                                            
+                                            $cnt=1;
+                                            if(mysqli_num_rows($query) > 0)
+                                            {
+                                                foreach($results as $row)
+                                                {              
+                                        ?>     
+                                        <tr>
+                                            <td class="align-middle"><?php echo htmlentities($cnt);?></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['Name']);?></td>
+                                            <td class="align-middle"> <?php echo ($row['placement']=="Yes")? '<i class="fa fa-check-circle fa-2x text-success"></i>':'<i class="fa fa-times fa-2x text-danger"></i>'; ?> 
+                                            </td>
+                                            <td class="align-middle"><?php if($row['Company']==""){ echo '<i class="fa fa-times fa-2x text-danger"></i>';}else { echo htmlentities($row['Company']);} ?></td>
+                                        </tr>
+                                        <?php $cnt=$cnt+1;}} ?>   
+                                    </table>
+                                </div>
                             </div>
-                        </div>
                     </div>
-
-
-
                 </div>
             </div><!-- .animated -->
         </div><!-- .content -->
-
-
     </div>
 
     <!-- Right Panel -->
@@ -118,11 +117,23 @@ foreach($results as $row)
 
     <script src="vendors/jquery/dist/jquery.min.js"></script>
     <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="vendors/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="vendors/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
     <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="assets/js/mains.js"></script>
-
+    <script src="../assets/js/mains.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables.min.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables-select.min.js"></script>
+    
+    <script>
+        jQuery(document).ready(function($){
+          $('#dt-cell-sellection').dataTable({
+            select: {
+              style: 'os',
+              items: 'cell'
+            }
+          });
+        });
+    </script>
 
 </body>
-
 </html>
-<?php }  ?>

@@ -51,7 +51,7 @@
   </style>
 </head>
 
-<body class="login-page" style="background-image: url(../assets/img/background.jpg); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+<body class="login-page" style="background-image: url(../assets/img/backgrounds.jpg); background-repeat: no-repeat; background-size: cover; background-position: center center;">
 
   <!-- Main Navigation -->
 

@@ -1,14 +1,12 @@
 <?php
-session_start();
-error_reporting(0);
-include('includes/dbconnection.php');
-if (strlen($_SESSION['trmsaid']==0)) {
-  header('location:logout.php');
-  } else{
-
-
-
-  ?>
+    session_start();
+    error_reporting(0);
+    include('../database.php');
+    if(strlen($_SESSION['userid'] == 0)) 
+    {
+        header('location:logout.php');
+    }
+?>
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -25,11 +23,13 @@ if (strlen($_SESSION['trmsaid']==0)) {
     <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
 
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/addons/datatables.min.css">
+    <link rel="stylesheet" href="../assets/css/addons/datatables-select.min.css">
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-
-
 
 </head>
 
@@ -72,60 +72,60 @@ if (strlen($_SESSION['trmsaid']==0)) {
                                 <strong class="card-title">View Reports</strong>
                             </div>
                             <div class="card-body">
-<h4 class="m-t-0 header-title">Between Dates Reports</h4>
-                                    <?php
-$fdate=$_POST['fromdate'];
-$tdate=$_POST['todate'];
-
-?>
-<h5 align="center" style="color:blue">Report from <?php echo $fdate?> </h5>
-
-                                <table class="table">
+                                <h4 class="m-t-0 header-title">Between Dates Reports</h4>
+                                <?php
+                                    $fdate=$_POST['fromdate'];
+                                    $tdate=$_POST['todate'];
+                                ?>
+                            <h5 align="center" class="mb-3">Report from <b>"<?php echo $fdate?>"</b> to <b>"<?php echo $tdate?>"</b></h5>
+                                <table id="dt-cell-sellection" class="table table-hover text-center">
                                     <thead>
                                         <tr>
-                                            <tr>
-                  <th>Student ID</th>
-            
-                  <th>Student Name</th>
-                  <th>Course Enrolled</th>
-                    <th>Placement Status</th>       
-                </tr>
+                                            <th class="th-sm text-center">SR NO</th>
+                                            <th class="th-sm text-center">Student Name</th>
+                                            <th class="th-sm text-center">Student Picture</th>
+                                            <th class="th-sm text-center">Student Email</th>
+                                            <th class="th-sm text-center">Address</th>
+                                            <th class="th-sm text-center">Mobile</th>
+                                            <th class="th-sm text-center">Placed (Y/N)</th>      
                                         </tr>
-                                        </thead>
+                                    </thead>
                                     <?php
-                                    $sql="SELECT * from tblstudent where JoiningDate BETWEEN '" . $fdate . "' AND  '" . $tdate . "'";
-$query = $dbh -> prepare($sql);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $row)
-{               ?>   
-              
-                <tr>
-                  <td><?php echo htmlentities($cnt);?></td>
-            <td><?php  echo htmlentities($row->Name);?></td>
-                  <td><?php  echo htmlentities($row->StudCourse);?></td>
-                  <td align="center"> <?php echo ($row->Placed=="Yes")? '<i class="fa fa-check-square-o" aria-hidden="true"></i>':'<i class="fa fa-times" aria-hidden="true"></i>'; ?> </td>
-                </tr>
-                <?php 
-$cnt=$cnt+1;
-} }?>
+                                        $sql="SELECT * from student where joiningDate BETWEEN '" . $fdate . "' AND  '" . $tdate . "' AND disable=0";
+                                        $query = mysqli_query($con, $sql); 
+                                        $results = mysqli_fetch_all($query, MYSQLI_ASSOC);
+                                        $cnt=1;
+                                        if(mysqli_num_rows($query) > 0)
+                                        {
+                                        foreach($results as $row)
+                                        {               
+                                    ?>   
+                                        <tr>
+                                            <td class="align-middle"><?php  echo htmlentities($cnt);?></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['name']);?></td>
+                                            <td class="align-middle"><img src="../assets/img/profile/<?php echo $row['profilePic'];?>" height="100"></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['email']);?></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['address']);?></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['mobile']);?></td>
+                                            <td class="align-middle"><?php  echo htmlentities($row['placement']);?></td>
+                                        </tr>
+                                        <?php $cnt=$cnt+1; } }
+                                        else
+                                            {
+                                    ?>
+                                        <tr>
+                                            <td colspan="8"> No record found against given date</td>
+                                        </tr>
+                                    <?php
+                                            }?>
 
                                 </table>
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
             </div><!-- .animated -->
         </div><!-- .content -->
-
-
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
@@ -133,11 +133,23 @@ $cnt=$cnt+1;
 
     <script src="vendors/jquery/dist/jquery.min.js"></script>
     <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="vendors/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="vendors/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
     <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="assets/js/mains.js"></script>
+    <script src="../assets/js/mains.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables.min.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables-select.min.js"></script>
 
+    <script>
+        jQuery(document).ready(function($){
+          $('#dt-cell-sellection').dataTable({
+            select: {
+              style: 'os',
+              items: 'cell'
+            }
+          });
+        });
+    </script>
 
 </body>
-
 </html>
-<?php }  ?>

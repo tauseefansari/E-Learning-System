@@ -25,6 +25,10 @@
     <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="vendors/selectFX/css/cs-skin-elastic.css">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/addons/datatables.min.css">
+    <link rel="stylesheet" href="../assets/css/addons/datatables-select.min.css">
+
     <link rel="stylesheet" href="../assets/css/styles.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
@@ -72,20 +76,20 @@
                                 <strong class="card-title">View Students</strong>
                             </div>
                             <div class="card-body">
-                                <table class="table">
+                                <table id="dt-cell-sellection" class="table table-hover text-center">
                                     <thead>
                                         <tr>
-                  							<th>SR NO</th>
-                  							<th>Student Name</th>
-                  							<th>Student Picture</th>
-                  							<th>Student Email</th>
-                  							<th>Mobile</th>
-                  							<th>Placement Status</th>
-                  							<th>Action</th>
+                  							<th class="th-sm text-center">SR NO</th>
+                  							<th class="th-sm text-center">Student Name</th>
+                  							<th class="th-sm text-center">Student Picture</th>
+                  							<th class="th-sm text-center">Student Email</th>
+                  							<th class="th-sm text-center">Mobile</th>
+                  							<th class="th-sm text-center">Placed (Y/N)</th>
+                  							<th class="th-sm text-center">Action</th>
                 						</tr>
                                     </thead>
                                     <?php
-										$sql = "SELECT * from student WHERE disable = 0 ORDER BY joiningDate";
+										$sql = "SELECT * FROM student WHERE student.disable = 0 ORDER BY joiningDate";
 										$query = mysqli_query($con, $sql);
 										$results = mysqli_fetch_all($query, MYSQLI_ASSOC);
 										$cnt=1;
@@ -95,23 +99,13 @@
 											{ 
 									?>   
 								                <tr>
-								                  	<td><?php  echo htmlentities($cnt);?></td>
-								                  	<td><?php  echo htmlentities($row['name']);?></td>
-								                  	<td><img src="../assets/img/profile/<?php echo $row['profilePic'];?>" height="100"></td>
-								                  	<td><?php  echo htmlentities($row['email']);?></td>
-								                  	<td><?php  echo htmlentities($row['mobile']);?></td>
-								                  	<?php if(!empty($row['placement'])) 
-								                  			{
-								                  	?>
-								                  				<td><?php  echo htmlentities($row['placement']);?></td>
-								                  	<?php 	}
-								                  			else
-								                  			{  
-								                  	?>			
-								                  				<td align="center" style="color:red"><span class="fas fa-close"></span>&nbsp;Not Available</td>
-								                	<?php 	}  
-								                	?>
-								                	<td>
+								                  	<td class="align-middle"><?php  echo htmlentities($cnt);?></td>
+								                  	<td class="align-middle"><?php  echo htmlentities($row['name']);?></td>
+								                  	<td class="align-middle"><img src="../assets/img/profile/<?php echo $row['profilePic'];?>" height="100"></td>
+								                  	<td class="align-middle"><?php  echo htmlentities($row['email']);?></td>
+								                  	<td class="align-middle"><?php  echo htmlentities($row['mobile']);?></td>
+								                  	<td class="align-middle"><?php  echo htmlentities($row['placement']);?></td>
+								                	<td class="align-middle">
 			                                            <input type="hidden" name="id" value="<?php echo $row['id'];?>" class="delete_id_value">
 			                                            <a href="javascript:void(0)" class="btn btn-danger delete_btn_ajax"> <i class="fa fa-trash"></i> </a>
 			                                        </td>
@@ -139,6 +133,8 @@
     <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../assets/js/mains.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables.min.js"></script>
+    <script type="text/javascript" src="../assets/js/addons/datatables-select.min.js"></script>
 
     <script>
         jQuery(document).ready(function($){
@@ -173,6 +169,15 @@
                       }
                     });
             });
+        });
+
+        jQuery(document).ready(function($){
+          $('#dt-cell-sellection').dataTable({
+            select: {
+              style: 'os',
+              items: 'cell'
+            }
+          });
         });
     </script>
 
