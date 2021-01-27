@@ -375,7 +375,7 @@
                           <?php 
                             $check =  mysqli_query($con, "SELECT * FROM payment WHERE studentId='$id'");
                             $check_payment = mysqli_fetch_array($check);
-                            if($check_payment['totalPayment'] == $check_payment['paidPayment'])
+                            if($check_payment['paidPayment'] >= $check_payment['totalPayment'])
                             {
                           ?>
                             <a href="../assets/img/Certificates/<?php echo $row['certificate']; ?>" data-toggle="tooltip" data-placement="top" title="Download Certificate" target="_blank" download>

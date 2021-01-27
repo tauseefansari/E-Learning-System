@@ -144,7 +144,7 @@
                                                     <select type="text" name="taken" id="tsubjects" value="" class="form-control" required="true">
                                                         <option value="<?php echo $row['takenBy'];?>"><?php echo $row['takenBy'];?></option>
                                                         <?php 
-                                                            $sql2 = "SELECT * from staff";
+                                                            $sql2 = "SELECT * from staff WHERE disable=0";
                                                             $query2 = mysqli_query($con, $sql2);
                                                             $result2 = mysqli_fetch_all($query2, MYSQLI_ASSOC);
                                                             foreach($result2 as $row)

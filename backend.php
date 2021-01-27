@@ -416,12 +416,12 @@
     $password = md5($_POST['password']);
     if($type == "student")
     {
-      $query = mysqli_query($con, "UPDATE student SET password = '$password' WHERE id = '$id'");
+      $query = mysqli_query($con, "UPDATE student SET password = '$password',disable=0 WHERE id = '$id'");
       $_SESSION['password_change'] = "Password Changed Successfully!";
     }
     else if($type == "staff")
     {
-      $query = mysqli_query($con, "UPDATE staff SET password = '$password' WHERE id = '$id'");
+      $query = mysqli_query($con, "UPDATE staff SET password = '$password',disable=0 WHERE id = '$id'");
       $_SESSION['password_change'] = "Password Changed Successfully!";
     }
   }
@@ -460,7 +460,7 @@
     $studentId = $_POST['studentid'];
     $price = $_POST['price'];
     $payment = mysqli_query($con, "UPDATE payment SET totalPayment=(totalPayment - '$price') WHERE studentId = '$studentId'");
-    $query = mysqli_query($con, "DELETE FROM appliedcourses WHERE id = '$id'");
+    $query = mysqli_query($con, "DELETE FROM appliedCourses WHERE id = '$id'");
   }
   
   if(isset($_POST['pay_details']))

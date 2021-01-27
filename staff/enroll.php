@@ -146,7 +146,7 @@
                   while ($row = mysqli_fetch_array($query))
                   {
                     $id=$row['id'];
-                    $query2= mysqli_query($con, "SELECT appliedCourses.id AS ID, appliedCourses.studentId AS SID,name,price FROM appliedCourses JOIN courses ON appliedCourses.courseId=courses.id WHERE studentId ='$id'");
+                    $query2= mysqli_query($con, "SELECT appliedCourses.id AS ID, appliedCourses.studentId AS SID,name,price FROM appliedCourses JOIN courses ON appliedCourses.courseId=courses.id WHERE studentId ='$id' AND appliedCourses.progress < 100");
                 ?>
                     <tr>
                       <td class="align-middle"> <strong> <?php echo $row['name']; ?> </strong> </td>
