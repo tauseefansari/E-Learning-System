@@ -1,0 +1,27 @@
+A51 MACRO ASSEMBLER  ADDITION                                                             09/24/2019 19:47:37 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN Addition.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Addition.s SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H
+0000 7445              2     MOV A,#45H
+0002 2455              3     ADD A,#55H
+                       4     END
+A51 MACRO ASSEMBLER  ADDITION                                                             09/24/2019 19:47:37 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

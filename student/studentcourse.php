@@ -208,7 +208,7 @@
         <?php
             $start=0;
             $contentid = $row['id'];
-            $files = mysqli_query($con, "SELECT * FROM coursefiles WHERE id NOT IN (SELECT fileId FROM filestatus WHERE complete=1) AND contentid='$contentid'");
+            $files = mysqli_query($con, "SELECT * FROM coursefiles WHERE id NOT IN (SELECT fileId FROM filestatus WHERE complete=1 AND studentId = '$id') AND contentid='$contentid'");
             if(mysqli_num_rows($files)<1)
             {
             	echo '<h4 class="h4"> No Files to Show! </h4>';
@@ -317,7 +317,7 @@
         <?php
             $start=0;
             $contentid = $row['id'];
-            $files = mysqli_query($con, "SELECT * FROM coursefiles JOIN filestatus ON coursefiles.id=filestatus.fileId WHERE filestatus.complete=1 AND coursefiles.contentid='$contentid'");
+            $files = mysqli_query($con, "SELECT * FROM coursefiles JOIN filestatus ON coursefiles.id=filestatus.fileId WHERE filestatus.complete=1 AND coursefiles.contentid='$contentid' AND studentId = '$id'");
             if(mysqli_num_rows($files)<1)
             {
             	echo '<h4 class="h4"> No Files to Show! </h4>';
