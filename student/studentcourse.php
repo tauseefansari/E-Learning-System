@@ -1,4 +1,4 @@
-<?php
+<?php 
   require '../database.php';
   require '../backend.php';
 
@@ -18,7 +18,7 @@
 
 	$querry = mysqli_query($con, "SELECT * FROM courses WHERE id = '$courseid'");
 	$result = mysqli_fetch_array($querry);
-  $coursename = $result['name'];
+  $coursename = $result['name']; 
 ?>
 
 <!DOCTYPE html>
@@ -41,8 +41,8 @@
   <!-- DataTables.net  -->
   <link rel="stylesheet" type="text/css" href="../assets/css/addons/datatables.min.css">
   <link rel="stylesheet" href="../assets/css/addons/datatables-select.min.css">
-
-  <!-- google Favicons link -->
+  
+  <!-- Favicons -->
   <link href="../assets/assets/img/favicon.png" rel="icon">
   <!-- <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
 
@@ -88,7 +88,7 @@
   <!-- Main Container -->
   <div class="container mt-5 pt-3 wow animated bounceInDown">
 
-    <!-- product details -->
+    <!-- Section: product details -->
     <section id="productDetails" class="pb-5">
 
       <!-- News card -->
@@ -111,7 +111,7 @@
 
             </h2>
 
-			       <?php echo $result['badge']; ?>
+			       <?php echo $result['badge']; ?>            
 
             </strong>
 
@@ -135,7 +135,7 @@
 
               <strong>Duration : </strong><?php echo $result['duration']; ?> Months</p>
 
-            <?php
+            <?php 
               $query = mysqli_query($con, "SELECT * FROM appliedCourses WHERE studentId = '$id' AND courseId='$courseid' AND progress=100");
               if(mysqli_num_rows($query) == 1)
               {
@@ -155,9 +155,9 @@
                 else
                 {
             ?>
-                <h4 class="h4 bg-danger text-light p-3">You can only download certificate once you done payment!</h4>
+                <h4 class="h4 bg-danger text-light p-3">You can only download certificate once you done payment!</h4>  
             <?php
-                }
+                } 
               }
             ?>
 
@@ -196,7 +196,7 @@
         <i class="fas fa-spinner fa-2x mb-3" aria-hidden="true"></i> <h4> Ongoing Files</h4>
       </div>
       <div class="card-body text-left">
-        <?php
+        <?php 
           $query = mysqli_query($con, "SELECT * FROM coursecontent WHERE courseid='$courseid'");
           while ($row = mysqli_fetch_array($query))
           {
@@ -222,20 +222,20 @@
                 echo '<div class="row">';
               }
 
-              $target_dir = "../assets/img/coursefiles/".$coursename."/";
-              $filePath = $target_dir.$res["filename"];
-              $fileMime = mime_content_type($filePath);
+              $target_dir = "../assets/img/coursefiles/".$coursename."/"; 
+              $filePath = $target_dir.$res["filename"]; 
+              $fileMime = mime_content_type($filePath); 
         ?>
             <!--Grid column-->
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card">
                 <div class="card-body">
-                  <?php
+                  <?php 
                     if($fileMime == "image/png")
                     {
                   ?>
                     <img src="<?php echo $filePath; ?>" type="<?php echo $fileMime; ?>" class="fit-card">
-                  <?php
+                  <?php 
                     }
                     else if($fileMime == "video/mp4")
                     {
@@ -244,7 +244,7 @@
                       <source src="<?php echo $filePath; ?>" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
-                  <?php
+                  <?php 
                     }
                     else if($fileMime == "application/octet-stream")
                     {
@@ -253,13 +253,13 @@
                     <source src="<?php echo $filePath; ?>" type="audio/ogg">
                       Your browser does not support the audio element.
                   </audio>
-                  <?php
+                  <?php 
                     }
                     else
                     {
                   ?>
                   <embed src="<?php echo $filePath; ?>" type="<?php echo $fileMime; ?>" class="fit-card">
-                  <?php
+                  <?php 
                     }
                   ?>
                   <a href="<?php echo $filePath; ?>" target="_blank" download><button type="button" class="btn btn-outline-success pull-right"> <i class="fas fa-download"></i> Download </button> </a>
@@ -280,7 +280,7 @@
             </div>
           <!--Grid column-->
         <?php
-        	$start++;
+        	$start++; 
             if($start % 3 == 0)
             {
               echo '</div>';
@@ -305,7 +305,7 @@
         <i class="fas fa-check-double fa-2x mb-3" aria-hidden="true"></i> <h4> Completed Files</h4>
       </div>
       <div class="card-body text-left">
-        <?php
+        <?php 
           $query = mysqli_query($con, "SELECT * FROM coursecontent WHERE courseid='$courseid'");
           while ($row = mysqli_fetch_array($query))
           {
@@ -330,8 +330,8 @@
               {
                 echo '<div class="row">';
               }
-              $target_dir = "../assets/img/coursefiles/".$coursename."/";
-              $filePath = $target_dir.$res["filename"];
+              $target_dir = "../assets/img/coursefiles/".$coursename."/"; 
+              $filePath = $target_dir.$res["filename"]; 
               $fileMime = mime_content_type($filePath);
         ?>
             <!--Grid column-->
@@ -343,7 +343,7 @@
                     {
                   ?>
                     <img src="<?php echo $filePath; ?>" type="<?php echo $fileMime; ?>" class="fit-card">
-                  <?php
+                  <?php 
                     }
                     else if($fileMime == "video/mp4")
                     {
@@ -352,7 +352,7 @@
                       <source src="<?php echo $filePath; ?>" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
-                  <?php
+                  <?php 
                     }
                     else if($fileMime == "application/octet-stream")
                     {
@@ -361,13 +361,13 @@
                     <source src="<?php echo $filePath; ?>" type="audio/ogg">
                       Your browser does not support the audio element.
                   </audio>
-                  <?php
+                  <?php 
                     }
                     else
                     {
                   ?>
                   <embed src="<?php echo $filePath; ?>" type="<?php echo $fileMime; ?>" class="fit-card">
-                  <?php
+                  <?php 
                     }
                   ?>
                   <a href="<?php echo $filePath; ?>" download><button type="button" class="btn btn-outline-success pull-right"> <i class="fas fa-download"></i> Download </button> </a>
@@ -388,7 +388,7 @@
             </div>
           <!--Grid column-->
         <?php
-        	$start++;
+        	$start++; 
             if($start % 3 == 0)
             {
               echo '</div>';
@@ -413,7 +413,7 @@
         <i class="fas fa-globe-asia fa-2x mb-3" aria-hidden="true"></i> <h4> All Files</h4>
       </div>
       <div class="card-body text-left">
-        <?php
+        <?php 
           $query = mysqli_query($con, "SELECT * FROM coursecontent WHERE courseid='$courseid'");
           while ($row = mysqli_fetch_array($query))
           {
@@ -438,20 +438,20 @@
               {
                 echo '<div class="row">';
               }
-              $target_dir = "../assets/img/coursefiles/".$coursename."/";
-              $filePath = $target_dir.$res["filename"];
+              $target_dir = "../assets/img/coursefiles/".$coursename."/"; 
+              $filePath = $target_dir.$res["filename"]; 
               $fileMime = mime_content_type($filePath);
         ?>
             <!--Grid column-->
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card">
                 <div class="card-body">
-                  <?php
+                  <?php 
                     if($fileMime == "image/png")
                     {
                   ?>
                     <img src="<?php echo $filePath; ?>" type="<?php echo $fileMime; ?>" class="fit-card">
-                  <?php
+                  <?php 
                     }
                     else if($fileMime == "video/mp4")
                     {
@@ -460,7 +460,7 @@
                       <source src="<?php echo $filePath; ?>" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
-                  <?php
+                  <?php 
                     }
                     else if($fileMime == "application/octet-stream")
                     {
@@ -469,13 +469,13 @@
                     <source src="<?php echo $filePath; ?>" type="audio/ogg">
                       Your browser does not support the audio element.
                   </audio>
-                  <?php
+                  <?php 
                     }
                     else
                     {
                   ?>
                   <embed src="<?php echo $filePath; ?>" type="<?php echo $fileMime; ?>" class="fit-card">
-                  <?php
+                  <?php 
                     }
                   ?>
                   <a href="<?php echo $filePath; ?>" download><button type="button" class="btn btn-outline-success pull-right"> <i class="fas fa-download"></i> Download </button> </a>
@@ -484,7 +484,7 @@
               </div>
             </div>
           <!--Grid column-->
-        <?php
+        <?php 
         	$start++;
             if($start % 3 == 0)
             {
@@ -605,7 +605,7 @@
           </div>
         </div>
         <!-- Modal: Login / Register Form Demo -->
-
+        
 
   <!-- SCRIPTS -->
   <!-- JQuery -->
@@ -662,12 +662,12 @@
             $("#all").hide();
         }
         else
-        {
+        { 
             $("#ongoing").hide();
             $("#completed").hide();
             $("#all").show();
         }
-        });
+        }); 
     });
 
     jQuery(document).ready(function($){
